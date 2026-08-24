@@ -81,147 +81,28 @@ tr:hover { background:#f8fafc; }
 .notif-item { padding:10px; border-bottom:1px solid #e2e8f0; font-size:13px; }
 .notif-item:last-child { border:none; }
 
-/* ===== NEW: Vertical Product List (One Below Another) ===== */
-.product-list-vertical {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 15px;
-}
-
-.product-card-vertical {
-  background: #fff;
-  border: 2px solid #e2e8f0;
-  border-radius: 14px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  align-items: stretch;
-}
-.product-card-vertical:hover {
-  border-color: #667eea;
-  box-shadow: 0 4px 15px rgba(102,126,234,0.15);
-}
-
-.product-card-vertical .product-img-v {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  background: #f1f5f9;
-  flex-shrink: 0;
-}
-
-.product-card-vertical .product-info-v {
-  padding: 12px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-}
-
-.product-card-vertical .product-name-v {
-  font-weight: 700;
-  font-size: 16px;
-  color: #1e293b;
-}
-
-.product-card-vertical .product-price-v {
-  color: #667eea;
-  font-weight: 800;
-  font-size: 15px;
-}
-
-.product-card-vertical .product-stock-v {
-  font-size: 12px;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.product-card-vertical .product-stock-v .stock-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  display: inline-block;
-}
+.product-list-vertical { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+.product-card-vertical { background: #fff; border: 2px solid #e2e8f0; border-radius: 14px; overflow: hidden; display: flex; flex-direction: row; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.06); align-items: stretch; }
+.product-card-vertical:hover { border-color: #667eea; box-shadow: 0 4px 15px rgba(102,126,234,0.15); }
+.product-card-vertical .product-img-v { width: 120px; height: 120px; object-fit: cover; background: #f1f5f9; flex-shrink: 0; }
+.product-card-vertical .product-info-v { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.product-card-vertical .product-name-v { font-weight: 700; font-size: 16px; color: #1e293b; }
+.product-card-vertical .product-price-v { color: #667eea; font-weight: 800; font-size: 15px; }
+.product-card-vertical .product-stock-v { font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 4px; }
+.product-card-vertical .product-stock-v .stock-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block; }
 .product-card-vertical .product-stock-v .stock-dot.low { background: #f59e0b; }
 .product-card-vertical .product-stock-v .stock-dot.out { background: #ef4444; }
+.product-card-vertical .qty-control-v { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px 15px; background: #f8fafc; border-right: 1px solid #e2e8f0; min-width: 90px; gap: 8px; }
+.product-card-vertical .qty-btn-v { width: 36px; height: 36px; border-radius: 50%; border: none; background: #667eea; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 6px rgba(102,126,234,0.3); }
+.product-card-vertical .qty-btn-v:hover { background: #5568d3; transform: scale(1.1); }
+.product-card-vertical .qty-btn-v:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+.product-card-vertical .qty-val-v { font-weight: 800; font-size: 20px; color: #1e293b; min-width: 30px; text-align: center; }
 
-.product-card-vertical .qty-control-v {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 15px;
-  background: #f8fafc;
-  border-right: 1px solid #e2e8f0;
-  min-width: 90px;
-  gap: 8px;
-}
-
-.product-card-vertical .qty-btn-v {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: #667eea;
-  color: #fff;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  box-shadow: 0 2px 6px rgba(102,126,234,0.3);
-}
-.product-card-vertical .qty-btn-v:hover {
-  background: #5568d3;
-  transform: scale(1.1);
-}
-.product-card-vertical .qty-btn-v:disabled {
-  background: #cbd5e1;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.product-card-vertical .qty-val-v {
-  font-weight: 800;
-  font-size: 20px;
-  color: #1e293b;
-  min-width: 30px;
-  text-align: center;
-}
-
-.shop-select-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
-  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-}
-.shop-select-section label {
-  font-weight: bold;
-  font-size: 16px;
-  display: block;
-  margin-bottom: 10px;
-}
-.shop-select-section select {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-family: inherit;
-}
+.shop-select-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 20px; border-radius: 12px; margin-top: 20px; box-shadow: 0 4px 15px rgba(102,126,234,0.3); }
+.shop-select-section label { font-weight: bold; font-size: 16px; display: block; margin-bottom: 10px; }
+.shop-select-section select { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-family: inherit; }
 
 .preview-box { background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; border:1px dashed #cbd5e1; }
-
 .img-preview-box { width:100px; height:100px; border:2px dashed #cbd5e1; border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top:5px; cursor:pointer; position:relative; }
 .img-preview-box img { width:100%; height:100%; object-fit:cover; }
 .img-preview-box span { color:#94a3b8; font-size:12px; text-align:center; padding:5px; }
@@ -259,6 +140,13 @@ tr:hover { background:#f8fafc; }
 .filter-bar label { font-weight:600; color:#475569; }
 .filter-bar select, .filter-bar input { padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:14px; }
 
+.report-filters { background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+.report-filters h4 { margin-bottom: 15px; color: #334155; }
+.report-filters .filter-row { display: flex; gap: 15px; flex-wrap: wrap; align-items: flex-end; }
+.report-filters .filter-group { flex: 1; min-width: 150px; }
+.report-filters .filter-group label { display: block; font-weight: 600; color: #475569; margin-bottom: 5px; font-size: 13px; }
+.report-filters .filter-group select, .report-filters .filter-group input { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; font-family: inherit; }
+
 .tab-container { margin-bottom:15px; }
 .tab-buttons { display:flex; gap:5px; flex-wrap:wrap; border-bottom:2px solid #e2e8f0; padding-bottom:0; }
 .tab-btn { padding:10px 20px; border:none; background:transparent; cursor:pointer; font-size:14px; font-weight:500; color:#64748b; border-bottom:3px solid transparent; margin-bottom:-2px; transition:.2s; }
@@ -291,6 +179,8 @@ tr:hover { background:#f8fafc; }
   .product-card-vertical { flex-direction: column; }
   .product-card-vertical .product-img-v { width: 100%; height: 180px; }
   .product-card-vertical .qty-control-v { flex-direction: row; border-right: none; border-top: 1px solid #e2e8f0; min-width: auto; padding: 10px; }
+  .report-filters .filter-row { flex-direction: column; }
+  .report-filters .filter-group { width: 100%; }
 }
 </style>
 </head>
@@ -298,7 +188,7 @@ tr:hover { background:#f8fafc; }
 
 <div id="loginPage" class="login-wrap">
   <div class="login-box">
-    <h2> چوونەژوورەوە</h2>
+    <h2>🔐 چوونەژوورەوە</h2>
     <input type="text" id="loginUser" placeholder="Username">
     <input type="password" id="loginPass" placeholder="Password">
     <button onclick="doLogin()">چوونەژوورەوە</button>
@@ -325,7 +215,7 @@ tr:hover { background:#f8fafc; }
 <div id="modalContainer"></div>
 
 <script>
-const DB_KEY = 'mobile_system_db_final_v10';
+const DB_KEY = 'mobile_system_db_final_v11';
 
 function defaultDB() {
   return {
@@ -370,6 +260,9 @@ let tempImageBase64 = '';
 let currentMandubIdForPayment = null;
 let currentFilterStatus = 'all';
 let currentFilterMandub = 'all';
+let reportPeriod = 'all';
+let reportYear = new Date().getFullYear();
+let reportMonth = new Date().getMonth() + 1;
 
 function doLogin() {
   const u = document.getElementById('loginUser').value.trim();
@@ -380,8 +273,6 @@ function doLogin() {
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('appPage').classList.remove('hidden');
   buildSidebar();
-  
-  // ✅ MANDUB GOES DIRECTLY TO NEW ORDER (PRODUCTS) PAGE
   if (currentUser.role === 'mandub') {
     go('newOrder');
   } else {
@@ -399,13 +290,13 @@ function buildSidebar() {
   const sb = document.getElementById('sidebar');
   let menu = `<h3>سیستەمی مۆبایل</h3>`;
   menu += `<div class="user-info">${currentUser.name}<br><small>${currentUser.role}</small></div>`;
-  menu += `<a onclick="go('dashboard')" class="active" id="nav-dashboard">🏠 داشبۆرد</a>`;
+  menu += `<a onclick="go('dashboard')" class="active" id="nav-dashboard"> داشبۆرد</a>`;
 
   if (currentUser.role === 'superadmin') {
-    menu += `<a onclick="go('admins')" id="nav-admins">👨💼 بەڕێوەبردنی Admin</a>`;
-    menu += `<a onclick="go('mandubs')" id="nav-mandubs">‍💼 مندوبەکان</a>`;
+    menu += `<a onclick="go('admins')" id="nav-admins">👨‍💼 بەڕێوەبردنی Admin</a>`;
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑‍ مندوبەکان</a>`;
     menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
-    menu += `<a onclick="go('products')" id="nav-products"> کەلوپەلەکان</a>`;
+    menu += `<a onclick="go('products')" id="nav-products">📦 کەلوپەلەکان</a>`;
     menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
     menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردنەکان</a>`;
     menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوبەکان</a>`;
@@ -413,7 +304,7 @@ function buildSidebar() {
     menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرتی گشتی</a>`;
     menu += `<a onclick="go('history')" id="nav-history">📜 مێژوو</a>`;
   } else if (currentUser.role === 'admin') {
-    menu += `<a onclick="go('mandubs')" id="nav-mandubs">‍💼 بەڕێوەبردنی مندوب</a>`;
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑💼 بەڕێوەبردنی مندوب</a>`;
     menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
     menu += `<a onclick="go('products')" id="nav-products">📦 کۆگا / کەلوپەل</a>`;
     menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
@@ -428,7 +319,7 @@ function buildSidebar() {
     menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries"> وەرگرتنەکان</a>`;
     menu += `<a onclick="go('myAccount')" id="nav-myAccount">💳 حسابی من</a>`;
     menu += `<a onclick="go('myShopAccounts')" id="nav-myShopAccounts">💰 حسابی دوکانەکانم</a>`;
-    menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay"> تۆمارکردنی پارە</a>`;
+    menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay">💵 تۆمارکردنی پارە</a>`;
   }
   menu += `<a class="logout" onclick="logout()">🚪 چوونەدەرەوە</a>`;
   sb.innerHTML = menu;
@@ -790,7 +681,7 @@ function renderOrders() {
         
         let title = currentFilterStatus === 'approved' ? 'قبوڵکراوەکان' : 'تسلیمکراوەکان';
         summaryHtml = `<div class="products-summary-box">
-          <h4> کۆی هەموو کاڵاکان (${title})${mandubName}</h4>
+          <h4>📦 کۆی هەموو کاڵاکان (${title})${mandubName}</h4>
           <table class="summary-table">
             <tr><th>وێنە</th><th>ناوی کاڵا</th><th>کۆی ژمارە</th><th>کۆی بەها</th></tr>`;
         
@@ -992,7 +883,7 @@ function renderMandubAccounts() {
       <td>${fmt(s.received)}</td>
       <td>${fmt(s.paidToAdmin)}</td>
       <td style="color:${s.debtToAdmin>0?'red':'green'}"><b>${fmt(s.debtToAdmin)}</b></td>
-      <td><button class="btn btn-sm btn-primary" onclick="showMandubShopDetails(${m.id})">📂 بینینی دوکانەکان</button></td>
+      <td><button class="btn btn-sm btn-primary" onclick="showMandubShopDetails(${m.id})"> بینینی دوکانەکان</button></td>
     </tr>`;
   });
   html += '</table></div></div>';
@@ -1021,7 +912,7 @@ function showMandubShopDetails(mandubId) {
   });
   let html = '';
   html += `<div class="shop-detail-section">
-    <h4> کۆی هەموو دوکانەکان</h4>
+    <h4>📊 کۆی هەموو دوکانەکان</h4>
     <div class="stats" style="margin-bottom:0">
       ${statCard('کۆی گشتی', fmt(mandubStats.received), '')}
       ${statCard('پارەی دراوەتە Admin', fmt(mandubStats.paidToAdmin), 'green')}
@@ -1070,7 +961,7 @@ function showMandubShopDetails(mandubId) {
       const shopDels = DB.deliveries.filter(d=>d.shopId===s.id);
       html += `<div class="shop-card">
         <div class="shop-card-header">
-          <div><div class="shop-card-title"> ${s.name}</div><div class="shop-card-sub">${s.owner||''} - ${s.phone||''} | ${s.city||''}</div></div>
+          <div><div class="shop-card-title">🏪 ${s.name}</div><div class="shop-card-sub">${s.owner||''} - ${s.phone||''} | ${s.city||''}</div></div>
           <div class="shop-card-stats"><div class="shop-card-total">کۆی: ${fmt(st.bought)}</div><div class="shop-card-debt ${st.debt<=0?'paid':''}">قەرز: ${fmt(st.debt)}</div></div>
         </div>`;
       if (shopDels.length === 0) html += '<p style="color:#94a3b8;font-size:13px">هیچ کاڵایەک بۆ ئەم دوکانە نەنێردراوە</p>';
@@ -1181,25 +1072,295 @@ function recordShopPayFor(shopId) {
   saveDB(); render();
 }
 
+// ===== NEW: ENHANCED REPORTS WITH DAILY/MONTHLY/YEARLY FILTERS =====
 function renderReports() {
-  const totalSales = DB.deliveries.reduce((s,d)=>s+d.items.reduce((a,i)=>a+i.price*i.qty,0),0);
-  const totalStock = DB.products.reduce((s,p)=>s+p.stock,0);
-  const stockValue = DB.products.reduce((s,p)=>s+p.stock*p.buyPrice,0);
-  const totalDebt = calcTotalDebt();
-  let html = `<div class="stats">
+  // Get current year for default selection
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+  
+  // Generate years list (last 5 years + current)
+  let yearOptions = '';
+  for (let y = currentYear; y >= currentYear - 5; y--) {
+    yearOptions += `<option value="${y}" ${y == reportYear ? 'selected' : ''}>${y}</option>`;
+  }
+  
+  // Generate months list
+  const months = ['کانوونی دووەم', 'شوبات', 'ئازار', 'نیسان', 'مایس', 'حوزەیران', 'تەمموز', 'ئاب', 'ئەیلول', 'تشرینی یەکەم', 'تشرینی دووەم', 'کانوونی یەکەم'];
+  let monthOptions = '';
+  months.forEach((m, i) => {
+    monthOptions += `<option value="${i+1}" ${i+1 == reportMonth ? 'selected' : ''}>${m}</option>`;
+  });
+  
+  let html = `<div class="panel">
+    <div class="panel-head"><h2>📊 ڕاپۆرتی گشتی</h2></div>
+    
+    <!-- Report Filters -->
+    <div class="report-filters">
+      <h4>فلتەرەکانی ڕاپۆرت</h4>
+      <div class="filter-row">
+        <div class="filter-group">
+          <label>جۆری ڕاپۆرت:</label>
+          <select id="reportPeriod" onchange="changeReportPeriod()">
+            <option value="all" ${reportPeriod === 'all' ? 'selected' : ''}>هەموو کات</option>
+            <option value="daily" ${reportPeriod === 'daily' ? 'selected' : ''}>ڕۆژانە</option>
+            <option value="monthly" ${reportPeriod === 'monthly' ? 'selected' : ''}>مانگانە</option>
+            <option value="yearly" ${reportPeriod === 'yearly' ? 'selected' : ''}>ساڵانە</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>ساڵ:</label>
+          <select id="reportYear" onchange="applyReportFilters()">
+            ${yearOptions}
+          </select>
+        </div>
+        <div class="filter-group" id="monthFilterGroup" style="${reportPeriod === 'monthly' || reportPeriod === 'daily' ? '' : 'display:none'}">
+          <label>مانگ:</label>
+          <select id="reportMonth" onchange="applyReportFilters()">
+            ${monthOptions}
+          </select>
+        </div>
+        <div class="filter-group" id="dayFilterGroup" style="${reportPeriod === 'daily' ? '' : 'display:none'}">
+          <label>ڕۆژ:</label>
+          <input type="date" id="reportDay" onchange="applyReportFilters()" value="${new Date().toISOString().split('T')[0]}">
+        </div>
+      </div>
+    </div>`;
+  
+  // Get filtered data
+  const filteredDeliveries = getFilteredDeliveries();
+  const filteredOrders = getFilteredOrders();
+  
+  // Calculate statistics
+  const totalSales = filteredDeliveries.reduce((s,d)=>s+d.items.reduce((a,i)=>a+i.price*i.qty,0),0);
+  const totalOrders = filteredOrders.length;
+  const totalDeliveries = filteredDeliveries.length;
+  const pendingOrders = filteredOrders.filter(o=>o.status==='pending').length;
+  const approvedOrders = filteredOrders.filter(o=>o.status==='approved').length;
+  const deliveredOrders = filteredOrders.filter(o=>o.status==='delivered').length;
+  const rejectedOrders = filteredOrders.filter(o=>o.status==='rejected').length;
+  
+  // Calculate monthly sales for chart
+  const monthlySales = calculateMonthlySales(filteredDeliveries);
+  
+  html += `<div class="stats">
     ${statCard('کۆی فرۆشتن', fmt(totalSales), 'green')}
-    ${statCard('بەهای کۆگا', fmt(stockValue), '')}
-    ${statCard('کۆی دانە', totalStock, 'orange')}
-    ${statCard('کۆی قەرز', fmt(totalDebt), 'red')}
+    ${statCard('کۆی داواکاری', totalOrders, '')}
+    ${statCard('کۆی تسلیمکراو', totalDeliveries, 'orange')}
+    ${statCard('چاوەڕوان', pendingOrders, 'red')}
   </div>`;
-  html += `<div class="panel"><div class="panel-head"><h2>ڕاپۆرتی ڕۆژانە / مانگانە</h2></div>
-    <p>کۆی داواکارییەکان: ${DB.orders.length}</p>
-    <p>داواکاری چاوەڕوان: ${DB.orders.filter(o=>o.status==='pending').length}</p>
-    <p>داواکاری قبوڵکراو: ${DB.orders.filter(o=>o.status==='approved').length}</p>
-    <p>داواکاری تسلیمکراو: ${DB.orders.filter(o=>o.status==='delivered').length}</p>
-    <p>داواکاری ڕەتکراو: ${DB.orders.filter(o=>o.status==='rejected').length}</p>
-  </div>`;
+  
+  html += `<div class="tab-container">
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="switchReportTab('tabOverview')">📊 تێڕوانین گشتی</button>
+      <button class="tab-btn" onclick="switchReportTab('tabOrders')">📝 داواکارییەکان</button>
+      <button class="tab-btn" onclick="switchReportTab('tabProducts')">📦 کاڵاکان</button>
+      <button class="tab-btn" onclick="switchReportTab('tabMandubs')">👥 مندوبەکان</button>
+    </div>
+    
+    <div id="tabOverview" class="tab-content active">
+      <h4 style="margin:15px 0 10px"> ئاماری مانگانە</h4>
+      <div class="table-wrap">
+        <table class="summary-table">
+          <tr><th>مانگ</th><th>کۆی فرۆشتن</th><th>ژمارەی داواکاری</th><th>ژمارەی تسلیمکراو</th></tr>`;
+  
+  Object.keys(monthlySales).sort().forEach(month => {
+    const data = monthlySales[month];
+    html += `<tr><td>${month}</td><td>${fmt(data.sales)}</td><td>${data.orders}</td><td>${data.deliveries}</td></tr>`;
+  });
+  
+  html += `</table></div>
+    </div>
+    
+    <div id="tabOrders" class="tab-content">
+      <h4 style="margin:15px 0 10px">📝 وردەکاری داواکارییەکان</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>#</th><th>مەندوب</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>دۆخ</th></tr>`;
+  
+  filteredOrders.slice(0, 50).forEach(o => {
+    const m = getUser(o.mandubId);
+    const s = getShop(o.shopId);
+    const total = o.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+    const statusClass = { pending:'status-pending', approved:'status-approved', rejected:'status-rejected', delivered:'status-delivered' }[o.status];
+    const statusText = { pending:'چاوەڕوان', approved:'قبوڵکراو', rejected:'ڕەتکراوە', delivered:'تسلیمکرا' }[o.status];
+    html += `<tr><td>${o.id}</td><td>${m?m.name:'-'}</td><td>${s?s.name:'-'}</td><td>${o.date}</td><td>${fmt(total)}</td><td><span class="badge-status ${statusClass}">${statusText}</span></td></tr>`;
+  });
+  
+  html += `</table></div>
+    </div>
+    
+    <div id="tabProducts" class="tab-content">
+      <h4 style="margin:15px 0 10px"> وردەکاری کاڵاکان</h4>`;
+  
+  const productStats = calculateProductStats(filteredDeliveries);
+  html += `<div class="table-wrap"><table class="summary-table">
+    <tr><th>وێنە</th><th>ناوی کاڵا</th><th>کۆی فرۆشراو</th><th>کۆی بەها</th></tr>`;
+  
+  Object.keys(productStats).forEach(pid => {
+    const p = getProduct(+pid);
+    const stats = productStats[pid];
+    const img = p && p.image ? `<img src="${p.image}">` : '';
+    html += `<tr><td>${img}</td><td>${p?p.name:'Unknown'}</td><td>${stats.qty} دانە</td><td><b>${fmt(stats.total)}</b></td></tr>`;
+  });
+  
+  html += `</table></div></div>
+    
+    <div id="tabMandubs" class="tab-content">
+      <h4 style="margin:15px 0 10px"> ئاماری مندوبەکان</h4>
+      <div class="table-wrap"><table class="summary-table">
+        <tr><th>ناوی مندوب</th><th>کۆی فرۆشتن</th><th>ژمارەی داواکاری</th><th>ژمارەی تسلیمکراو</th></tr>`;
+  
+  const mandubStats = calculateMandubStatsForReport(filteredDeliveries, filteredOrders);
+  mandubStats.forEach(stats => {
+    html += `<tr><td><b>${stats.name}</b></td><td>${fmt(stats.sales)}</td><td>${stats.orders}</td><td>${stats.deliveries}</td></tr>`;
+  });
+  
+  html += `</table></div></div>
+  </div></div>`;
+  
   return html;
+}
+
+function changeReportPeriod() {
+  reportPeriod = document.getElementById('reportPeriod').value;
+  
+  // Show/hide month and day filters based on period
+  const monthGroup = document.getElementById('monthFilterGroup');
+  const dayGroup = document.getElementById('dayFilterGroup');
+  
+  if (reportPeriod === 'monthly' || reportPeriod === 'daily') {
+    monthGroup.style.display = '';
+  } else {
+    monthGroup.style.display = 'none';
+  }
+  
+  if (reportPeriod === 'daily') {
+    dayGroup.style.display = '';
+  } else {
+    dayGroup.style.display = 'none';
+  }
+  
+  applyReportFilters();
+}
+
+function applyReportFilters() {
+  reportYear = +document.getElementById('reportYear').value;
+  reportMonth = +document.getElementById('reportMonth').value;
+  if (currentPage === 'reports') render();
+}
+
+function getFilteredDeliveries() {
+  let filtered = DB.deliveries.slice();
+  
+  if (reportPeriod === 'yearly') {
+    filtered = filtered.filter(d => {
+      const date = new Date(d.date);
+      return date.getFullYear() === reportYear;
+    });
+  } else if (reportPeriod === 'monthly') {
+    filtered = filtered.filter(d => {
+      const date = new Date(d.date);
+      return date.getFullYear() === reportYear && (date.getMonth() + 1) === reportMonth;
+    });
+  } else if (reportPeriod === 'daily') {
+    const dayInput = document.getElementById('reportDay').value;
+    filtered = filtered.filter(d => d.date.startsWith(dayInput));
+  }
+  
+  return filtered;
+}
+
+function getFilteredOrders() {
+  let filtered = DB.orders.slice();
+  
+  if (reportPeriod === 'yearly') {
+    filtered = filtered.filter(o => {
+      const date = new Date(o.date);
+      return date.getFullYear() === reportYear;
+    });
+  } else if (reportPeriod === 'monthly') {
+    filtered = filtered.filter(o => {
+      const date = new Date(o.date);
+      return date.getFullYear() === reportYear && (date.getMonth() + 1) === reportMonth;
+    });
+  } else if (reportPeriod === 'daily') {
+    const dayInput = document.getElementById('reportDay').value;
+    filtered = filtered.filter(o => o.date.startsWith(dayInput));
+  }
+  
+  return filtered;
+}
+
+function calculateMonthlySales(deliveries) {
+  const monthly = {};
+  const months = ['کانوونی دووەم', 'شوبات', 'ئازار', 'نیسان', 'مایس', 'حوزەیران', 'تەمموز', 'ئاب', 'ئەیلول', 'تشرینی یەکەم', 'تشرینی دووەم', 'کانوونی یەکەم'];
+  
+  deliveries.forEach(d => {
+    const date = new Date(d.date);
+    const monthKey = `${months[date.getMonth()]} ${date.getFullYear()}`;
+    if (!monthly[monthKey]) {
+      monthly[monthKey] = { sales: 0, orders: 0, deliveries: 0 };
+    }
+    monthly[monthKey].sales += d.items.reduce((s,i)=>s+i.price*i.qty,0);
+    monthly[monthKey].deliveries += 1;
+  });
+  
+  // Count orders per month
+  DB.orders.forEach(o => {
+    const date = new Date(o.date);
+    const monthKey = `${months[date.getMonth()]} ${date.getFullYear()}`;
+    if (!monthly[monthKey]) {
+      monthly[monthKey] = { sales: 0, orders: 0, deliveries: 0 };
+    }
+    monthly[monthKey].orders += 1;
+  });
+  
+  return monthly;
+}
+
+function calculateProductStats(deliveries) {
+  const stats = {};
+  deliveries.forEach(d => {
+    d.items.forEach(i => {
+      if (!stats[i.productId]) {
+        stats[i.productId] = { qty: 0, total: 0 };
+      }
+      stats[i.productId].qty += i.qty;
+      stats[i.productId].total += i.price * i.qty;
+    });
+  });
+  return stats;
+}
+
+function calculateMandubStatsForReport(deliveries, orders) {
+  const stats = {};
+  const mandubs = DB.users.filter(u => u.role === 'mandub');
+  
+  mandubs.forEach(m => {
+    stats[m.id] = { name: m.name, sales: 0, orders: 0, deliveries: 0 };
+  });
+  
+  deliveries.forEach(d => {
+    if (stats[d.mandubId]) {
+      stats[d.mandubId].sales += d.items.reduce((s,i)=>s+i.price*i.qty,0);
+      stats[d.mandubId].deliveries += 1;
+    }
+  });
+  
+  orders.forEach(o => {
+    if (stats[o.mandubId]) {
+      stats[o.mandubId].orders += 1;
+    }
+  });
+  
+  return Object.values(stats).filter(s => s.orders > 0 || s.deliveries > 0);
+}
+
+function switchReportTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
 }
 
 function renderHistory() {
@@ -1262,14 +1423,12 @@ function saveShop() {
 
 let orderQuantities = {}; 
 
-// ===== NEW: MANDUB NEW ORDER - PRODUCTS FIRST, THEN SHOP =====
 function renderNewOrder() {
   const myShops = DB.shops.filter(s=>s.mandubId===currentUser.id);
   
   let html = `<div class="panel">
     <div class="panel-head"><h2>📝 داواکاری نوێ</h2></div>
     
-    <!-- STEP 1: Products (shown immediately) -->
     <label style="font-weight:bold;font-size:17px;display:block;margin-bottom:10px;color:#1e293b">
       ١. کاڵاکان هەڵبژێرە:
     </label>`;
@@ -1304,21 +1463,19 @@ function renderNewOrder() {
     html += '</div>';
   }
   
-  // Preview Box
   html += `
     <hr style="margin:20px 0;border-color:#e2e8f0">
     <label style="font-weight:bold;font-size:17px;display:block;margin-bottom:10px;color:#1e293b">
-      . پێشبینینی داواکاری:
+      ٢. پێشبینینی داواکاری:
     </label>
     <div id="orderPreview" class="preview-box">
       <p style="color:#64748b">هیچ کاڵایەک هەڵنەبژێردراوە</p>
     </div>`;
   
-  // STEP 2: Shop Selection (after products)
   if (myShops.length > 0) {
     html += `
       <div class="shop-select-section">
-        <label>٣. دوکان هەڵبژێرە:</label>
+        <label>. دوکان هەڵبژێرە:</label>
         <select id="orderShop">
           <option value="">-- دوکانێک هەڵبژێرە --</option>`;
     myShops.forEach(s => html += `<option value="${s.id}">${s.name} (${s.city||''})</option>`);
@@ -1333,7 +1490,6 @@ function renderNewOrder() {
       </div>`;
   }
   
-  // Note & Submit
   html += `
     <label style="display:block;margin-top:15px;font-weight:bold">تێبینی بۆ Admin:</label>
     <textarea id="orderNote" rows="2" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-top:5px"></textarea>
@@ -1489,7 +1645,7 @@ function renderMyAccount() {
         <button class="tab-btn active" onclick="switchTab('tabPending')">⏳ چاوەڕوان (${pendingOrders.length})</button>
         <button class="tab-btn" onclick="switchTab('tabApproved')">✅ قبوڵکراو (${approvedOrders.length})</button>
         <button class="tab-btn" onclick="switchTab('tabDelivered')">📦 تسلیمکراو (${deliveredOrders.length})</button>
-        <button class="tab-btn" onclick="switchTab('tabRejected')"> ڕەتکراوە (${rejectedOrders.length})</button>
+        <button class="tab-btn" onclick="switchTab('tabRejected')">❌ ڕەتکراوە (${rejectedOrders.length})</button>
         <button class="tab-btn" onclick="switchTab('tabProducts')">📦 کۆی کاڵاکان</button>
         <button class="tab-btn" onclick="switchTab('tabPayments')">💰 مێژووی پارەدان</button>
       </div>
