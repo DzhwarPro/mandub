@@ -51,8 +51,8 @@ body { background:#f0f2f5; color:#222; min-height:100vh; }
 .btn-danger { background:#ef4444; color:#fff; }
 .btn-danger:hover { background:#dc2626; }
 .btn-warning { background:#f59e0b; color:#fff; }
-.btn-whatsapp { background:#25D366; color:#fff; }
-.btn-whatsapp:hover { background:#128C7E; }
+.btn-print { background:#1e293b; color:#fff; }
+.btn-print:hover { background:#0f172a; }
 .btn-sm { padding:5px 10px; font-size:12px; }
 .btn-lg { padding:12px 24px; font-size:16px; }
 
@@ -171,17 +171,93 @@ tr:hover { background:#f8fafc; }
 .payment-form-row label { flex:1; min-width:120px; }
 .payment-form-row input, .payment-form-row select { width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:14px; }
 
-/* WhatsApp Delivery Modal Styles */
-.whatsapp-preview { background: #e5ddd5; padding: 15px; border-radius: 8px; margin: 15px 0; font-family: 'Segoe UI', sans-serif; }
-.whatsapp-bubble { background: #dcf8c6; padding: 12px; border-radius: 8px; max-width: 90%; margin: 0 auto; box-shadow: 0 1px 2px rgba(0,0,0,0.1); white-space: pre-wrap; font-size: 14px; line-height: 1.6; }
-.whatsapp-header { background: #075e54; color: #fff; padding: 10px 15px; border-radius: 8px 8px 0 0; margin-bottom: 10px; font-weight: bold; }
-.balance-box { background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 12px; margin: 10px 0; }
-.balance-box .remaining { font-size: 20px; font-weight: bold; color: #dc3545; }
-.balance-box .prepaid { font-size: 14px; color: #28a745; }
-.delivery-summary { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; }
-.delivery-summary table { width: 100%; }
-.delivery-summary td { padding: 5px 0; border-bottom: 1px solid #dee2e6; }
-.delivery-summary tr:last-child td { border-bottom: none; font-weight: bold; }
+/* ===== DELIVERY MODAL STYLES ===== */
+.delivery-modal-body { padding: 10px 0; }
+.delivery-info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
+.delivery-info-box h4 { color: #334155; margin-bottom: 10px; border-bottom: 2px solid #667eea; padding-bottom: 5px; }
+.delivery-info-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed #e2e8f0; }
+.delivery-info-row:last-child { border-bottom: none; }
+.delivery-info-row .label { color: #64748b; font-weight: 500; }
+.delivery-info-row .value { font-weight: 700; color: #1e293b; }
+
+.prepaid-input-section { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border: 2px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 20px 0; }
+.prepaid-input-section h4 { color: #92400e; margin-bottom: 12px; font-size: 16px; }
+.prepaid-input-row { display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap; }
+.prepaid-input-row .input-group { flex: 1; min-width: 200px; }
+.prepaid-input-row label { display: block; font-weight: 600; color: #78350f; margin-bottom: 5px; font-size: 13px; }
+.prepaid-input-row input { width: 100%; padding: 12px; border: 2px solid #f59e0b; border-radius: 8px; font-size: 16px; font-weight: bold; font-family: inherit; }
+
+.balance-result { background: #fff; border-radius: 10px; padding: 15px; margin-top: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.balance-result .bal-item { text-align: center; padding: 10px; border-radius: 8px; }
+.balance-result .bal-item.total { background: #dbeafe; }
+.balance-result .bal-item.prepaid { background: #d1fae5; }
+.balance-result .bal-item.remaining { background: #fee2e2; }
+.balance-result .bal-item .bal-label { font-size: 12px; color: #64748b; margin-bottom: 5px; }
+.balance-result .bal-item .bal-value { font-size: 20px; font-weight: 800; }
+.balance-result .bal-item.total .bal-value { color: #1e40af; }
+.balance-result .bal-item.prepaid .bal-value { color: #065f46; }
+.balance-result .bal-item.remaining .bal-value { color: #991b1b; }
+
+.delivery-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+.delivery-actions .btn { flex: 1; min-width: 150px; padding: 14px; font-size: 16px; }
+
+/* ===== PRINT INVOICE STYLES ===== */
+.print-invoice { display: none; }
+
+@media print {
+  body * { visibility: hidden; }
+  .print-invoice, .print-invoice * { visibility: visible; }
+  .print-invoice {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm;
+    background: #fff;
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  }
+  
+  .print-header { text-align: center; border-bottom: 3px solid #1e293b; padding-bottom: 15px; margin-bottom: 20px; }
+  .print-header h1 { font-size: 28px; color: #1e293b; margin-bottom: 5px; }
+  .print-header h2 { font-size: 18px; color: #667eea; margin-bottom: 10px; }
+  .print-header .print-date { font-size: 14px; color: #64748b; }
+  
+  .print-section { margin-bottom: 20px; }
+  .print-section h3 { background: #1e293b; color: #fff; padding: 10px 15px; border-radius: 6px; font-size: 16px; margin-bottom: 10px; }
+  
+  .print-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  .print-info-box { background: #f8fafc; padding: 12px; border-radius: 8px; border-right: 4px solid #667eea; }
+  .print-info-box h4 { font-size: 13px; color: #64748b; margin-bottom: 8px; }
+  .print-info-box p { font-size: 14px; margin: 3px 0; color: #1e293b; }
+  .print-info-box p strong { color: #1e293b; }
+  
+  .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .print-table th { background: #667eea; color: #fff; padding: 10px; text-align: right; font-size: 13px; }
+  .print-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+  .print-table tr:nth-child(even) { background: #f8fafc; }
+  .print-table .total-row { background: #1e293b !important; color: #fff; font-weight: bold; font-size: 15px; }
+  .print-table .total-row td { padding: 12px 10px; border: none; }
+  
+  .print-balance { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0; }
+  .print-balance .pb-item { padding: 15px; border-radius: 8px; text-align: center; border: 2px solid; }
+  .print-balance .pb-item.total { border-color: #3b82f6; background: #eff6ff; }
+  .print-balance .pb-item.prepaid { border-color: #10b981; background: #ecfdf5; }
+  .print-balance .pb-item.remaining { border-color: #ef4444; background: #fef2f2; }
+  .print-balance .pb-item .pb-label { font-size: 13px; color: #64748b; margin-bottom: 5px; }
+  .print-balance .pb-item .pb-value { font-size: 22px; font-weight: 800; }
+  .print-balance .pb-item.total .pb-value { color: #1e40af; }
+  .print-balance .pb-item.prepaid .pb-value { color: #065f46; }
+  .print-balance .pb-item.remaining .pb-value { color: #991b1b; }
+  
+  .print-signatures { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 40px; padding-top: 20px; border-top: 2px dashed #cbd5e1; }
+  .print-signatures .sig-box { text-align: center; }
+  .print-signatures .sig-box .sig-label { font-size: 13px; color: #64748b; margin-bottom: 30px; }
+  .print-signatures .sig-box .sig-line { border-top: 2px solid #1e293b; padding-top: 5px; font-size: 12px; color: #94a3b8; }
+  
+  .print-footer { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 2px solid #1e293b; font-size: 12px; color: #64748b; }
+}
 
 @media (max-width: 768px) {
   .sidebar { width:100%; height:auto; position:relative; }
@@ -203,12 +279,8 @@ tr:hover { background:#f8fafc; }
   .product-card-2x2 .qty-val-large { font-size: 18px; width: 30px; min-width: 30px; }
   .report-filters .filter-row { flex-direction: column; }
   .report-filters .filter-group { width: 100%; }
-}
-
-@media print {
-  .sidebar, .topbar, .btn, .modal { display: none !important; }
-  .main { margin: 0; padding: 20px; }
-  .panel { box-shadow: none; border: 1px solid #ddd; }
+  .balance-result { grid-template-columns: 1fr; }
+  .delivery-actions .btn { min-width: 100%; }
 }
 </style>
 </head>
@@ -243,8 +315,11 @@ tr:hover { background:#f8fafc; }
 <div id="modalContainer"></div>
 <div id="lightboxContainer"></div>
 
+<!-- ===== PRINT INVOICE CONTAINER (Hidden until print) ===== -->
+<div id="printInvoiceContainer" class="print-invoice"></div>
+
 <script>
-const DB_KEY = 'mobile_system_db_final_v13';
+const DB_KEY = 'mobile_system_db_final_v14';
 
 function defaultDB() {
   return {
@@ -324,31 +399,31 @@ function buildSidebar() {
   if (currentUser.role === 'superadmin') {
     menu += `<a onclick="go('admins')" id="nav-admins">👨‍💼 بەڕێوەبردنی Admin</a>`;
     menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑‍💼 مندوبەکان</a>`;
-    menu += `<a onclick="go('shops')" id="nav-shops"> دوکانەکان</a>`;
+    menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
     menu += `<a onclick="go('products')" id="nav-products">📦 کەلوپەلەکان</a>`;
     menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
     menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردنەکان</a>`;
     menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوبەکان</a>`;
     menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکانەکان</a>`;
     menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرتی گشتی</a>`;
-    menu += `<a onclick="go('history')" id="nav-history"> مێژوو</a>`;
+    menu += `<a onclick="go('history')" id="nav-history">📜 مێژوو</a>`;
   } else if (currentUser.role === 'admin') {
-    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑💼 بەڕێوەبردنی مندوب</a>`;
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">‍💼 بەڕێوەبردنی مندوب</a>`;
     menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
     menu += `<a onclick="go('products')" id="nav-products">📦 کۆگا / کەلوپەل</a>`;
     menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
-    menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردن</a>`;
+    menu += `<a onclick="go('deliveries')" id="nav-deliveries"> تسلیمکردن</a>`;
     menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوب</a>`;
     menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکان</a>`;
-    menu += `<a onclick="go('reports')" id="nav-reports"> ڕاپۆرت</a>`;
+    menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرت</a>`;
   } else if (currentUser.role === 'mandub') {
     menu += `<a onclick="go('myShops')" id="nav-myShops">🏪 دوکانەکانم</a>`;
     menu += `<a onclick="go('newOrder')" id="nav-newOrder">📝 داواکاری نوێ</a>`;
     menu += `<a onclick="go('myOrders')" id="nav-myOrders">📋 داواکارییەکانم</a>`;
-    menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries">📦 وەرگرتنەکان</a>`;
+    menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries"> وەرگرتنەکان</a>`;
     menu += `<a onclick="go('myAccount')" id="nav-myAccount">💳 حسابی من</a>`;
     menu += `<a onclick="go('myShopAccounts')" id="nav-myShopAccounts">💰 حسابی دوکانەکانم</a>`;
-    menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay">💵 تۆمارکردنی پارە</a>`;
+    menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay"> تۆمارکردنی پارە</a>`;
   }
   menu += `<a class="logout" onclick="logout()">🚪 چوونەدەرەوە</a>`;
   sb.innerHTML = menu;
@@ -746,7 +821,7 @@ function renderOrders() {
     } else {
       let title = currentFilterStatus === 'approved' ? 'قبوڵکراوەکان' : 'تسلیمکراوەکان';
       summaryHtml = `<div class="products-summary-box">
-        <h4>📦 کۆی هەموو کاڵاکان (${title})</h4>
+        <h4> کۆی هەموو کاڵاکان (${title})</h4>
         <p style="color:#64748b;text-align:center;padding:20px">هیچ داواکارییەکی ${title === 'قبوڵکراوەکان' ? 'قبوڵکراو' : 'تسلیمکراو'} نییە</p>
       </div>`;
     }
@@ -818,88 +893,218 @@ function viewOrder(id) {
     </div>`);
 }
 
-// NEW: Deliver Order with WhatsApp Modal
+// ===== NEW: DELIVER ORDER WITH PRINT INVOICE =====
 function deliverOrderWithModal(orderId) {
   const order = DB.orders.find(x => x.id === orderId);
   if (!order) return;
   
   const shop = getShop(order.shopId);
+  const mandub = getUser(order.mandubId);
   const total = order.items.reduce((sum, i) => sum + i.price * i.qty, 0);
   const shopStats = calcShopStats(order.shopId);
   const prepaid = shopStats.paid;
   const remaining = total - prepaid;
   
-  // Generate WhatsApp message
-  let whatsappMsg = `*فەوتورەی داواکاری #${order.id}*\n\n`;
-  whatsappMsg += `*دوکان:* ${shop.name}\n`;
-  whatsappMsg += `*خاوەن:* ${shop.owner || '-'}\n`;
-  whatsappMsg += `*مۆبایل:* ${shop.phone || '-'}\n`;
-  whatsappMsg += `*بەروار:* ${order.date}\n\n`;
-  whatsappMsg += `*کاڵاکان:*\n`;
-  whatsappMsg += `━━━━━━━━━━━━━━━━\n`;
-  
+  let itemsHtml = '';
   order.items.forEach((item, idx) => {
     const product = getProduct(item.productId);
-    whatsappMsg += `${idx + 1}. ${product ? product.name : 'Unknown'}\n`;
-    whatsappMsg += `   ژمارە: ${item.qty} دانە\n`;
-    whatsappMsg += `   نرخ: ${fmt(item.price)}\n`;
-    whatsappMsg += `   کۆ: ${fmt(item.price * item.qty)}\n\n`;
+    itemsHtml += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${product ? product.name : 'Unknown'}</td>
+        <td>${item.qty}</td>
+        <td>${fmt(item.price)}</td>
+        <td><b>${fmt(item.price * item.qty)}</b></td>
+      </tr>`;
   });
   
-  whatsappMsg += `━━━━━━━━━━━━━━━━\n`;
-  whatsappMsg += `*کۆی گشتی:* ${fmt(total)}\n`;
-  whatsappMsg += `*پارەی پێشکەوت:* ${fmt(prepaid)}\n`;
-  whatsappMsg += `*ماوە:* ${fmt(remaining)}\n`;
-  whatsappMsg += `\nسوپاس بۆ مامەڵەکردن! 🙏`;
-  
-  // Show modal with preview
-  openModal('تسلیمکردنی داواکاری', `
-    <div class="delivery-summary">
-      <h4>وردەکاری داواکاری #${order.id}</h4>
-      <table>
-        <tr><td>دوکان:</td><td><b>${shop.name}</b></td></tr>
-        <tr><td>خاوەن:</td><td>${shop.owner || '-'}</td></tr>
-        <tr><td>مۆبایل:</td><td>${shop.phone || '-'}</td></tr>
-        <tr><td>کۆی گشتی:</td><td><b style="color:#667eea">${fmt(total)}</b></td></tr>
-        <tr><td>پارەی پێشکەوت:</td><td style="color:#28a745">${fmt(prepaid)}</td></tr>
-        <tr><td>ماوە:</td><td style="color:#dc3545; font-size:18px; font-weight:bold">${fmt(remaining)}</td></tr>
-      </table>
-    </div>
-    
-    <div class="balance-box">
-      <div class="prepaid">💵 پارەی پێشکەوت: ${fmt(prepaid)}</div>
-      <div style="margin-top:8px">💰 کۆی گشتی: ${fmt(total)}</div>
-      <div class="remaining" style="margin-top:8px">📌 ماوە: ${fmt(remaining)}</div>
-    </div>
-    
-    <div class="whatsapp-preview">
-      <div class="whatsapp-header"> پێشبینینی نامەی WhatsApp</div>
-      <div class="whatsapp-bubble">${whatsappMsg}</div>
-    </div>
-    
-    <div class="form-actions" style="margin-top:20px">
-      <button class="btn btn-whatsapp btn-lg" onclick="sendWhatsApp('${shop.phone}', '${encodeURIComponent(whatsappMsg)}')" style="flex:1">
-        📱 ناردن بە WhatsApp
-      </button>
-      <button class="btn btn-success btn-lg" onclick="confirmDelivery(${orderId})" style="flex:1">
-        ✅ دڵنیابوون و تسلیمکردن
-      </button>
-      <button class="btn btn-danger" onclick="closeModal()" style="flex:1">
-        ❌ داخستن
-      </button>
+  openModal('تسلیمکردنی داواکاری و چاپکردنی فۆرم', `
+    <div class="delivery-modal-body">
+      <div class="delivery-info-box">
+        <h4>📋 وردەکاری داواکاری #${order.id}</h4>
+        <div class="delivery-info-row"><span class="label">مەندوب:</span><span class="value">${mandub ? mandub.name : '-'}</span></div>
+        <div class="delivery-info-row"><span class="label">دوکان:</span><span class="value">${shop.name}</span></div>
+        <div class="delivery-info-row"><span class="label">خاوەن:</span><span class="value">${shop.owner || '-'}</span></div>
+        <div class="delivery-info-row"><span class="label">مۆبایل:</span><span class="value">${shop.phone || '-'}</span></div>
+        <div class="delivery-info-row"><span class="label">بەروار:</span><span class="value">${order.date}</span></div>
+      </div>
+      
+      <div class="delivery-info-box">
+        <h4>📦 کاڵاکان</h4>
+        <table>
+          <tr><th>#</th><th>کاڵا</th><th>ژمارە</th><th>نرخ</th><th>کۆ</th></tr>
+          ${itemsHtml}
+        </table>
+      </div>
+      
+      <div class="prepaid-input-section">
+        <h4>💵 پارەی پێشکەوت بنووسە</h4>
+        <div class="prepaid-input-row">
+          <div class="input-group">
+            <label>بڕی پارەی پێشکەوت (د.ع):</label>
+            <input type="number" id="prepaidAmount" value="${prepaid}" min="0" oninput="updateBalance(${total})">
+          </div>
+        </div>
+        <div class="balance-result">
+          <div class="bal-item total">
+            <div class="bal-label">کۆی گشتی</div>
+            <div class="bal-value" id="balTotal">${fmt(total)}</div>
+          </div>
+          <div class="bal-item prepaid">
+            <div class="bal-label">پارەی پێشکەوت</div>
+            <div class="bal-value" id="balPrepaid">${fmt(prepaid)}</div>
+          </div>
+          <div class="bal-item remaining">
+            <div class="bal-label">ماوە</div>
+            <div class="bal-value" id="balRemaining">${fmt(remaining)}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="delivery-actions">
+        <button class="btn btn-print btn-lg" onclick="printInvoice(${orderId})">
+          🖨️ چاپکردنی فۆرم (A4)
+        </button>
+        <button class="btn btn-success btn-lg" onclick="confirmDelivery(${orderId})">
+          ✅ دڵنیابوون و تسلیمکردن
+        </button>
+        <button class="btn btn-danger" onclick="closeModal()">
+          ❌ داخستن
+        </button>
+      </div>
     </div>
   `);
 }
 
-function sendWhatsApp(phone, encodedMsg) {
-  if (!phone) {
-    alert('ژمارەی مۆبایلی دوکان دیاری نەکراوە');
-    return;
-  }
-  // Remove any non-digit characters from phone
-  const cleanPhone = phone.replace(/\D/g, '');
-  const url = `https://wa.me/964${cleanPhone}?text=${encodedMsg}`;
-  window.open(url, '_blank');
+function updateBalance(total) {
+  const prepaid = +document.getElementById('prepaidAmount').value || 0;
+  const remaining = total - prepaid;
+  document.getElementById('balPrepaid').innerText = fmt(prepaid);
+  document.getElementById('balRemaining').innerText = fmt(remaining);
+}
+
+function printInvoice(orderId) {
+  const order = DB.orders.find(x => x.id === orderId);
+  if (!order) return;
+  
+  const shop = getShop(order.shopId);
+  const mandub = getUser(order.mandubId);
+  const total = order.items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const prepaid = +document.getElementById('prepaidAmount').value || 0;
+  const remaining = total - prepaid;
+  const printDate = now();
+  
+  let itemsHtml = '';
+  order.items.forEach((item, idx) => {
+    const product = getProduct(item.productId);
+    itemsHtml += `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${product ? product.name : 'Unknown'}</td>
+        <td>${item.qty} دانە</td>
+        <td>${fmt(item.price)}</td>
+        <td><b>${fmt(item.price * item.qty)}</b></td>
+      </tr>`;
+  });
+  
+  const invoiceHtml = `
+    <div class="print-header">
+      <h1>📱 سیستەمی دابەشکردنی مۆبایل</h1>
+      <h2>فۆرمی تسلیمکردنی کاڵا</h2>
+      <div class="print-date">بەرواری چاپ: ${printDate} | ژمارەی داواکاری: #${order.id}</div>
+    </div>
+    
+    <div class="print-section">
+      <h3>📋 زانیاری گشتی</h3>
+      <div class="print-info-grid">
+        <div class="print-info-box">
+          <h4> زانیاری دوکان</h4>
+          <p><strong>ناو:</strong> ${shop.name}</p>
+          <p><strong>خاوەن:</strong> ${shop.owner || '-'}</p>
+          <p><strong>مۆبایل:</strong> ${shop.phone || '-'}</p>
+          <p><strong>ناونیشان:</strong> ${shop.address || '-'}</p>
+          <p><strong>شار:</strong> ${shop.city || '-'}</p>
+        </div>
+        <div class="print-info-box">
+          <h4>👤 زانیاری مندوب</h4>
+          <p><strong>ناو:</strong> ${mandub ? mandub.name : '-'}</p>
+          <p><strong>مۆبایل:</strong> ${mandub ? mandub.phone || '-' : '-'}</p>
+          <p><strong>ناونیشان:</strong> ${mandub ? mandub.address || '-' : '-'}</p>
+          <p><strong>کۆد:</strong> ${mandub ? mandub.code || '-' : '-'}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="print-section">
+      <h3>📦 لیستی کاڵاکان</h3>
+      <table class="print-table">
+        <thead>
+          <tr>
+            <th style="width:50px">#</th>
+            <th>ناوی کاڵا</th>
+            <th style="width:100px">ژمارە</th>
+            <th style="width:130px">نرخی یەک دانە</th>
+            <th style="width:150px">کۆی بەها</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${itemsHtml}
+          <tr class="total-row">
+            <td colspan="4" style="text-align:left">کۆی گشتی:</td>
+            <td>${fmt(total)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="print-section">
+      <h3>💰 ئاماری پارە</h3>
+      <div class="print-balance">
+        <div class="pb-item total">
+          <div class="pb-label">کۆی گشتی</div>
+          <div class="pb-value">${fmt(total)}</div>
+        </div>
+        <div class="pb-item prepaid">
+          <div class="pb-label">پارەی پێشکەوت</div>
+          <div class="pb-value">${fmt(prepaid)}</div>
+        </div>
+        <div class="pb-item remaining">
+          <div class="pb-label">ماوە (قەرز)</div>
+          <div class="pb-value">${fmt(remaining)}</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="print-section">
+      <h3>️ ئیمزا و دڵنیابوونەوە</h3>
+      <div class="print-signatures">
+        <div class="sig-box">
+          <div class="sig-label">ئیمزای ئەدمین (دابەشکەر)</div>
+          <div class="sig-line">ناو: ${currentUser.name}</div>
+        </div>
+        <div class="sig-box">
+          <div class="sig-label">ئیمزای مندوب (وەرگر)</div>
+          <div class="sig-line">ناو: ${mandub ? mandub.name : '-'}</div>
+        </div>
+        <div class="sig-box">
+          <div class="sig-label">ئیمزای خاوەنی دوکان</div>
+          <div class="sig-line">ناو: ${shop.owner || '...................'}</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="print-footer">
+      <p>ئەم فۆرمە بە سێ بەرگ چاپ دەکرێت - یەکێک بۆ ئەدمین، یەکێک بۆ مندوب، یەکێک بۆ دوکان</p>
+      <p>سیستەمی دابەشکردنی مۆبایل © ${new Date().getFullYear()}</p>
+    </div>
+  `;
+  
+  document.getElementById('printInvoiceContainer').innerHTML = invoiceHtml;
+  
+  // Trigger print
+  setTimeout(() => {
+    window.print();
+  }, 300);
 }
 
 function confirmDelivery(orderId) {
@@ -965,36 +1170,6 @@ function rejectOrder(id) {
   saveDB(); closeModal(); render();
 }
 
-function deliverOrder(id) {
-  const o = DB.orders.find(x=>x.id===id);
-  let canDeliver = true;
-  let errorMsg = '';
-  o.items.forEach(i => {
-    const p = getProduct(i.productId);
-    if (p && p.stock < i.qty) {
-      canDeliver = false;
-      errorMsg += `${p.name}: ماوە ${p.stock} دانە، بەڵام ${i.qty} دانە داواکراوە.\n`;
-    }
-  });
-  if (!canDeliver) {
-    alert('⚠️ کۆگا نییە!\n\n' + errorMsg + '\nتکایە سەرەتا کاڵا زیاد بکە.');
-    return;
-  }
-  o.items.forEach(i => {
-    const p = getProduct(i.productId);
-    if (p) p.stock -= i.qty;
-  });
-  o.status = 'delivered';
-  DB.deliveries.push({
-    id: nextId(DB.deliveries), orderId:id, mandubId:o.mandubId, shopId:o.shopId,
-    items: JSON.parse(JSON.stringify(o.items)), date: now(), receivedByMandub:false
-  });
-  addHistory('تسلیمکردنی داواکاری', `#${id} - کەمکردنەوەی کۆگا`);
-  addNotif(o.mandubId, `کەلوپەلی داواکاری #${id} ئامادەیە - تکایە وەریبگرە`);
-  saveDB(); closeModal(); render();
-  alert('✅ داواکاری بە سەرکەوتوویی تسلیمکرا و کۆگا نوێکرایەوە!');
-}
-
 function mandubReceive(id) {
   const d = DB.deliveries.find(x=>x.orderId===id);
   if (d) d.receivedByMandub = true;
@@ -1046,7 +1221,7 @@ function renderMandubAccounts() {
       <td>${fmt(s.received)}</td>
       <td>${fmt(s.paidToAdmin)}</td>
       <td style="color:${s.debtToAdmin>0?'red':'green'}"><b>${fmt(s.debtToAdmin)}</b></td>
-      <td><button class="btn btn-sm btn-primary" onclick="showMandubShopDetails(${m.id})">📂 بینینی دوکانەکان</button></td>
+      <td><button class="btn btn-sm btn-primary" onclick="showMandubShopDetails(${m.id})"> بینینی دوکانەکان</button></td>
     </tr>`;
   });
   html += '</table></div></div>';
@@ -1101,7 +1276,7 @@ function showMandubShopDetails(mandubId) {
     </div>
   </div>`;
   html += `<div class="shop-detail-section">
-    <h4>📦 کۆی هەموو کاڵاکان (لە هەموو دوکانەکان)</h4>`;
+    <h4> کۆی هەموو کاڵاکان (لە هەموو دوکانەکان)</h4>`;
   const prodKeys = Object.keys(productSummary);
   if (prodKeys.length === 0) html += '<p style="color:#64748b">هیچ کاڵایەک نەنێردراوە</p>';
   else {
@@ -1251,7 +1426,7 @@ function renderReports() {
   });
   
   let html = `<div class="panel">
-    <div class="panel-head"><h2> ڕاپۆرتی گشتی</h2></div>
+    <div class="panel-head"><h2>📊 ڕاپۆرتی گشتی</h2></div>
     
     <div class="report-filters">
       <h4>فلتەرەکانی ڕاپۆرت</h4>
@@ -1309,7 +1484,7 @@ function renderReports() {
       <button class="tab-btn active" onclick="switchReportTab('tabOverview')">📊 تێڕوانین گشتی</button>
       <button class="tab-btn" onclick="switchReportTab('tabOrders')">📝 داواکارییەکان</button>
       <button class="tab-btn" onclick="switchReportTab('tabProducts')">📦 کاڵاکان</button>
-      <button class="tab-btn" onclick="switchReportTab('tabMandubs')"> مندوبەکان</button>
+      <button class="tab-btn" onclick="switchReportTab('tabMandubs')">👥 مندوبەکان</button>
     </div>
     
     <div id="tabOverview" class="tab-content active">
@@ -1852,7 +2027,7 @@ function renderMyAccount() {
         <button class="tab-btn" onclick="switchTab('tabDelivered')">📦 تسلیمکراو (${deliveredOrders.length})</button>
         <button class="tab-btn" onclick="switchTab('tabRejected')">❌ ڕەتکراوە (${rejectedOrders.length})</button>
         <button class="tab-btn" onclick="switchTab('tabProducts')">📦 کۆی کاڵاکان</button>
-        <button class="tab-btn" onclick="switchTab('tabPayments')"> مێژووی پارەدان</button>
+        <button class="tab-btn" onclick="switchTab('tabPayments')">💰 مێژووی پارەدان</button>
       </div>
       <div id="tabPending" class="tab-content active">
         <h4 style="margin-bottom:10px">⏳ داواکارییە چاوەڕوانەکان (بۆ قبوڵکردنی Admin)</h4>`;
