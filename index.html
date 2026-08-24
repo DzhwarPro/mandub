@@ -51,6 +51,8 @@ body { background:#f0f2f5; color:#222; min-height:100vh; }
 .btn-danger { background:#ef4444; color:#fff; }
 .btn-danger:hover { background:#dc2626; }
 .btn-warning { background:#f59e0b; color:#fff; }
+.btn-whatsapp { background:#25D366; color:#fff; }
+.btn-whatsapp:hover { background:#128C7E; }
 .btn-sm { padding:5px 10px; font-size:12px; }
 .btn-lg { padding:12px 24px; font-size:16px; }
 
@@ -81,179 +83,30 @@ tr:hover { background:#f8fafc; }
 .notif-item { padding:10px; border-bottom:1px solid #e2e8f0; font-size:13px; }
 .notif-item:last-child { border:none; }
 
-/* ===== 2x2 PRODUCT GRID ===== */
-.product-grid-2x2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.product-card-2x2 {
-  background: #fff;
-  border: 2px solid #e2e8f0;
-  border-radius: 14px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  cursor: pointer;
-}
-.product-card-2x2:hover {
-  border-color: #667eea;
-  box-shadow: 0 4px 15px rgba(102,126,234,0.15);
-  transform: translateY(-2px);
-}
-
-.product-card-2x2 .product-img-large {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background: #f1f5f9;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.product-card-2x2 .product-info-large {
-  padding: 12px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.product-card-2x2 .product-name-large {
-  font-weight: 700;
-  font-size: 15px;
-  color: #1e293b;
-  line-height: 1.3;
-}
-
-.product-card-2x2 .product-price-large {
-  color: #667eea;
-  font-weight: 800;
-  font-size: 16px;
-}
-
-.product-card-2x2 .product-stock-large {
-  font-size: 12px;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.product-card-2x2 .product-stock-large .stock-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  display: inline-block;
-}
+.product-grid-2x2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px; }
+.product-card-2x2 { background: #fff; border: 2px solid #e2e8f0; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; }
+.product-card-2x2:hover { border-color: #667eea; box-shadow: 0 4px 15px rgba(102,126,234,0.15); transform: translateY(-2px); }
+.product-card-2x2 .product-img-large { width: 100%; height: 200px; object-fit: cover; background: #f1f5f9; border-bottom: 1px solid #e2e8f0; }
+.product-card-2x2 .product-info-large { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.product-card-2x2 .product-name-large { font-weight: 700; font-size: 15px; color: #1e293b; line-height: 1.3; }
+.product-card-2x2 .product-price-large { color: #667eea; font-weight: 800; font-size: 16px; }
+.product-card-2x2 .product-stock-large { font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 4px; }
+.product-card-2x2 .product-stock-large .stock-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; display: inline-block; }
 .product-card-2x2 .product-stock-large .stock-dot.low { background: #f59e0b; }
 .product-card-2x2 .product-stock-large .stock-dot.out { background: #ef4444; }
+.product-card-2x2 .qty-control-large { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px; background: #f8fafc; border-top: 1px solid #e2e8f0; }
+.product-card-2x2 .qty-btn-large { width: 38px; height: 38px; border-radius: 50%; border: none; background: #667eea; color: #fff; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 6px rgba(102,126,234,0.3); }
+.product-card-2x2 .qty-btn-large:hover { background: #5568d3; transform: scale(1.1); }
+.product-card-2x2 .qty-btn-large:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; box-shadow: none; }
+.product-card-2x2 .qty-val-large { font-weight: 800; font-size: 22px; width: 40px; text-align: center; color: #1e293b; min-width: 40px; }
 
-.product-card-2x2 .qty-control-large {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 12px;
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
-}
+.image-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.image-lightbox img { max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 8px; }
+.image-lightbox .close-lightbox { position: absolute; top: 20px; right: 20px; background: #fff; color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border: none; }
 
-.product-card-2x2 .qty-btn-large {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: none;
-  background: #667eea;
-  color: #fff;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  box-shadow: 0 2px 6px rgba(102,126,234,0.3);
-}
-.product-card-2x2 .qty-btn-large:hover {
-  background: #5568d3;
-  transform: scale(1.1);
-}
-.product-card-2x2 .qty-btn-large:disabled {
-  background: #cbd5e1;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.product-card-2x2 .qty-val-large {
-  font-weight: 800;
-  font-size: 22px;
-  width: 40px;
-  text-align: center;
-  color: #1e293b;
-  min-width: 40px;
-}
-
-/* ===== IMAGE ZOOM/LIGHTBOX ===== */
-.image-lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-.image-lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  object-fit: contain;
-  border-radius: 8px;
-}
-.image-lightbox .close-lightbox {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: #fff;
-  color: #000;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  cursor: pointer;
-  border: none;
-}
-
-.shop-select-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
-  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-}
-.shop-select-section label {
-  font-weight: bold;
-  font-size: 16px;
-  display: block;
-  margin-bottom: 10px;
-}
-.shop-select-section select {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-family: inherit;
-  margin-bottom: 10px;
-}
+.shop-select-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; padding: 20px; border-radius: 12px; margin-top: 20px; box-shadow: 0 4px 15px rgba(102,126,234,0.3); }
+.shop-select-section label { font-weight: bold; font-size: 16px; display: block; margin-bottom: 10px; }
+.shop-select-section select { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 15px; font-family: inherit; margin-bottom: 10px; }
 
 .preview-box { background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; border:1px dashed #cbd5e1; }
 
@@ -318,6 +171,18 @@ tr:hover { background:#f8fafc; }
 .payment-form-row label { flex:1; min-width:120px; }
 .payment-form-row input, .payment-form-row select { width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:14px; }
 
+/* WhatsApp Delivery Modal Styles */
+.whatsapp-preview { background: #e5ddd5; padding: 15px; border-radius: 8px; margin: 15px 0; font-family: 'Segoe UI', sans-serif; }
+.whatsapp-bubble { background: #dcf8c6; padding: 12px; border-radius: 8px; max-width: 90%; margin: 0 auto; box-shadow: 0 1px 2px rgba(0,0,0,0.1); white-space: pre-wrap; font-size: 14px; line-height: 1.6; }
+.whatsapp-header { background: #075e54; color: #fff; padding: 10px 15px; border-radius: 8px 8px 0 0; margin-bottom: 10px; font-weight: bold; }
+.balance-box { background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 12px; margin: 10px 0; }
+.balance-box .remaining { font-size: 20px; font-weight: bold; color: #dc3545; }
+.balance-box .prepaid { font-size: 14px; color: #28a745; }
+.delivery-summary { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0; }
+.delivery-summary table { width: 100%; }
+.delivery-summary td { padding: 5px 0; border-bottom: 1px solid #dee2e6; }
+.delivery-summary tr:last-child td { border-bottom: none; font-weight: bold; }
+
 @media (max-width: 768px) {
   .sidebar { width:100%; height:auto; position:relative; }
   .main { margin-right:0; }
@@ -339,13 +204,19 @@ tr:hover { background:#f8fafc; }
   .report-filters .filter-row { flex-direction: column; }
   .report-filters .filter-group { width: 100%; }
 }
+
+@media print {
+  .sidebar, .topbar, .btn, .modal { display: none !important; }
+  .main { margin: 0; padding: 20px; }
+  .panel { box-shadow: none; border: 1px solid #ddd; }
+}
 </style>
 </head>
 <body>
 
 <div id="loginPage" class="login-wrap">
   <div class="login-box">
-    <h2> چوونەژوورەوە</h2>
+    <h2>🔐 چوونەژوورەوە</h2>
     <input type="text" id="loginUser" placeholder="Username">
     <input type="password" id="loginPass" placeholder="Password">
     <button onclick="doLogin()">چوونەژوورەوە</button>
@@ -373,7 +244,7 @@ tr:hover { background:#f8fafc; }
 <div id="lightboxContainer"></div>
 
 <script>
-const DB_KEY = 'mobile_system_db_final_v12';
+const DB_KEY = 'mobile_system_db_final_v13';
 
 function defaultDB() {
   return {
@@ -452,29 +323,29 @@ function buildSidebar() {
 
   if (currentUser.role === 'superadmin') {
     menu += `<a onclick="go('admins')" id="nav-admins">👨‍💼 بەڕێوەبردنی Admin</a>`;
-    menu += `<a onclick="go('mandubs')" id="nav-mandubs">‍💼 مندوبەکان</a>`;
-    menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑‍💼 مندوبەکان</a>`;
+    menu += `<a onclick="go('shops')" id="nav-shops"> دوکانەکان</a>`;
     menu += `<a onclick="go('products')" id="nav-products">📦 کەلوپەلەکان</a>`;
     menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
     menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردنەکان</a>`;
     menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوبەکان</a>`;
     menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکانەکان</a>`;
     menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرتی گشتی</a>`;
-    menu += `<a onclick="go('history')" id="nav-history">📜 مێژوو</a>`;
+    menu += `<a onclick="go('history')" id="nav-history"> مێژوو</a>`;
   } else if (currentUser.role === 'admin') {
-    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑‍💼 بەڕێوەبردنی مندوب</a>`;
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑💼 بەڕێوەبردنی مندوب</a>`;
     menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
     menu += `<a onclick="go('products')" id="nav-products">📦 کۆگا / کەلوپەل</a>`;
     menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
-    menu += `<a onclick="go('deliveries')" id="nav-deliveries"> تسلیمکردن</a>`;
+    menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردن</a>`;
     menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوب</a>`;
     menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکان</a>`;
-    menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرت</a>`;
+    menu += `<a onclick="go('reports')" id="nav-reports"> ڕاپۆرت</a>`;
   } else if (currentUser.role === 'mandub') {
     menu += `<a onclick="go('myShops')" id="nav-myShops">🏪 دوکانەکانم</a>`;
     menu += `<a onclick="go('newOrder')" id="nav-newOrder">📝 داواکاری نوێ</a>`;
     menu += `<a onclick="go('myOrders')" id="nav-myOrders">📋 داواکارییەکانم</a>`;
-    menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries"> وەرگرتنەکان</a>`;
+    menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries">📦 وەرگرتنەکان</a>`;
     menu += `<a onclick="go('myAccount')" id="nav-myAccount">💳 حسابی من</a>`;
     menu += `<a onclick="go('myShopAccounts')" id="nav-myShopAccounts">💰 حسابی دوکانەکانم</a>`;
     menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay">💵 تۆمارکردنی پارە</a>`;
@@ -928,7 +799,7 @@ function viewOrder(id) {
       <button class="btn btn-danger" onclick="rejectOrder(${id})">❌ ڕەتکردنەوە</button>`;
   }
   if (currentUser.role === 'admin' && o.status === 'approved') {
-    actions = `<button class="btn btn-primary" onclick="deliverOrder(${id})">📦 تسلیمکردن بە مندوب</button>`;
+    actions = `<button class="btn btn-primary" onclick="deliverOrderWithModal(${id})">📦 تسلیمکردن بە مندوب</button>`;
   }
   if (currentUser.role === 'mandub' && o.status === 'approved') {
     actions = `<button class="btn btn-success" onclick="mandubReceive(${id})">✅ وەرگرتن</button>`;
@@ -946,6 +817,140 @@ function viewOrder(id) {
       <button class="btn btn-danger" onclick="closeModal()">داخستن</button>
     </div>`);
 }
+
+// NEW: Deliver Order with WhatsApp Modal
+function deliverOrderWithModal(orderId) {
+  const order = DB.orders.find(x => x.id === orderId);
+  if (!order) return;
+  
+  const shop = getShop(order.shopId);
+  const total = order.items.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const shopStats = calcShopStats(order.shopId);
+  const prepaid = shopStats.paid;
+  const remaining = total - prepaid;
+  
+  // Generate WhatsApp message
+  let whatsappMsg = `*فەوتورەی داواکاری #${order.id}*\n\n`;
+  whatsappMsg += `*دوکان:* ${shop.name}\n`;
+  whatsappMsg += `*خاوەن:* ${shop.owner || '-'}\n`;
+  whatsappMsg += `*مۆبایل:* ${shop.phone || '-'}\n`;
+  whatsappMsg += `*بەروار:* ${order.date}\n\n`;
+  whatsappMsg += `*کاڵاکان:*\n`;
+  whatsappMsg += `━━━━━━━━━━━━━━━━\n`;
+  
+  order.items.forEach((item, idx) => {
+    const product = getProduct(item.productId);
+    whatsappMsg += `${idx + 1}. ${product ? product.name : 'Unknown'}\n`;
+    whatsappMsg += `   ژمارە: ${item.qty} دانە\n`;
+    whatsappMsg += `   نرخ: ${fmt(item.price)}\n`;
+    whatsappMsg += `   کۆ: ${fmt(item.price * item.qty)}\n\n`;
+  });
+  
+  whatsappMsg += `━━━━━━━━━━━━━━━━\n`;
+  whatsappMsg += `*کۆی گشتی:* ${fmt(total)}\n`;
+  whatsappMsg += `*پارەی پێشکەوت:* ${fmt(prepaid)}\n`;
+  whatsappMsg += `*ماوە:* ${fmt(remaining)}\n`;
+  whatsappMsg += `\nسوپاس بۆ مامەڵەکردن! 🙏`;
+  
+  // Show modal with preview
+  openModal('تسلیمکردنی داواکاری', `
+    <div class="delivery-summary">
+      <h4>وردەکاری داواکاری #${order.id}</h4>
+      <table>
+        <tr><td>دوکان:</td><td><b>${shop.name}</b></td></tr>
+        <tr><td>خاوەن:</td><td>${shop.owner || '-'}</td></tr>
+        <tr><td>مۆبایل:</td><td>${shop.phone || '-'}</td></tr>
+        <tr><td>کۆی گشتی:</td><td><b style="color:#667eea">${fmt(total)}</b></td></tr>
+        <tr><td>پارەی پێشکەوت:</td><td style="color:#28a745">${fmt(prepaid)}</td></tr>
+        <tr><td>ماوە:</td><td style="color:#dc3545; font-size:18px; font-weight:bold">${fmt(remaining)}</td></tr>
+      </table>
+    </div>
+    
+    <div class="balance-box">
+      <div class="prepaid">💵 پارەی پێشکەوت: ${fmt(prepaid)}</div>
+      <div style="margin-top:8px">💰 کۆی گشتی: ${fmt(total)}</div>
+      <div class="remaining" style="margin-top:8px">📌 ماوە: ${fmt(remaining)}</div>
+    </div>
+    
+    <div class="whatsapp-preview">
+      <div class="whatsapp-header"> پێشبینینی نامەی WhatsApp</div>
+      <div class="whatsapp-bubble">${whatsappMsg}</div>
+    </div>
+    
+    <div class="form-actions" style="margin-top:20px">
+      <button class="btn btn-whatsapp btn-lg" onclick="sendWhatsApp('${shop.phone}', '${encodeURIComponent(whatsappMsg)}')" style="flex:1">
+        📱 ناردن بە WhatsApp
+      </button>
+      <button class="btn btn-success btn-lg" onclick="confirmDelivery(${orderId})" style="flex:1">
+        ✅ دڵنیابوون و تسلیمکردن
+      </button>
+      <button class="btn btn-danger" onclick="closeModal()" style="flex:1">
+        ❌ داخستن
+      </button>
+    </div>
+  `);
+}
+
+function sendWhatsApp(phone, encodedMsg) {
+  if (!phone) {
+    alert('ژمارەی مۆبایلی دوکان دیاری نەکراوە');
+    return;
+  }
+  // Remove any non-digit characters from phone
+  const cleanPhone = phone.replace(/\D/g, '');
+  const url = `https://wa.me/964${cleanPhone}?text=${encodedMsg}`;
+  window.open(url, '_blank');
+}
+
+function confirmDelivery(orderId) {
+  const order = DB.orders.find(x => x.id === orderId);
+  if (!order) return;
+  
+  // Check stock
+  let canDeliver = true;
+  let errorMsg = '';
+  order.items.forEach(i => {
+    const p = getProduct(i.productId);
+    if (p && p.stock < i.qty) {
+      canDeliver = false;
+      errorMsg += `${p.name}: ماوە ${p.stock} دانە، بەڵام ${i.qty} دانە داواکراوە.\n`;
+    }
+  });
+  
+  if (!canDeliver) {
+    alert('⚠️ کۆگا نییە!\n\n' + errorMsg + '\nتکایە سەرەتا کاڵا زیاد بکە.');
+    return;
+  }
+  
+  // Reduce stock
+  order.items.forEach(i => {
+    const p = getProduct(i.productId);
+    if (p) p.stock -= i.qty;
+  });
+  
+  // Update order status
+  order.status = 'delivered';
+  
+  // Create delivery record
+  DB.deliveries.push({
+    id: nextId(DB.deliveries),
+    orderId: order.id,
+    mandubId: order.mandubId,
+    shopId: order.shopId,
+    items: JSON.parse(JSON.stringify(order.items)),
+    date: now(),
+    receivedByMandub: false
+  });
+  
+  addHistory('تسلیمکردنی داواکاری', `#${order.id} - کەمکردنەوەی کۆگا`);
+  addNotif(order.mandubId, `کەلوپەلی داواکاری #${order.id} ئامادەیە - تکایە وەریبگرە`);
+  saveDB();
+  
+  closeModal();
+  render();
+  alert('✅ داواکاری بە سەرکەوتوویی تسلیمکرا و کۆگا نوێکرایەوە!');
+}
+
 function approveOrder(id) {
   const o = DB.orders.find(x=>x.id===id); o.status = 'approved';
   addHistory('قبوڵکردنی داواکاری', '#'+id);
@@ -972,7 +977,7 @@ function deliverOrder(id) {
     }
   });
   if (!canDeliver) {
-    alert('️ کۆگا نییە!\n\n' + errorMsg + '\nتکایە سەرەتا کاڵا زیاد بکە.');
+    alert('⚠️ کۆگا نییە!\n\n' + errorMsg + '\nتکایە سەرەتا کاڵا زیاد بکە.');
     return;
   }
   o.items.forEach(i => {
@@ -1096,7 +1101,7 @@ function showMandubShopDetails(mandubId) {
     </div>
   </div>`;
   html += `<div class="shop-detail-section">
-    <h4> کۆی هەموو کاڵاکان (لە هەموو دوکانەکان)</h4>`;
+    <h4>📦 کۆی هەموو کاڵاکان (لە هەموو دوکانەکان)</h4>`;
   const prodKeys = Object.keys(productSummary);
   if (prodKeys.length === 0) html += '<p style="color:#64748b">هیچ کاڵایەک نەنێردراوە</p>';
   else {
@@ -1111,7 +1116,7 @@ function showMandubShopDetails(mandubId) {
   }
   html += '</div>';
   html += `<div class="shop-detail-section">
-    <h4> وردەکاری هەر دوکانێک (بە بەروار و ژمارە)</h4>`;
+    <h4>🏪 وردەکاری هەر دوکانێک (بە بەروار و ژمارە)</h4>`;
   if (shops.length === 0) html += '<p style="color:#64748b">هیچ دوکانێکی نییە</p>';
   else {
     shops.forEach(s => {
@@ -1246,7 +1251,7 @@ function renderReports() {
   });
   
   let html = `<div class="panel">
-    <div class="panel-head"><h2>📊 ڕاپۆرتی گشتی</h2></div>
+    <div class="panel-head"><h2> ڕاپۆرتی گشتی</h2></div>
     
     <div class="report-filters">
       <h4>فلتەرەکانی ڕاپۆرت</h4>
@@ -1304,7 +1309,7 @@ function renderReports() {
       <button class="tab-btn active" onclick="switchReportTab('tabOverview')">📊 تێڕوانین گشتی</button>
       <button class="tab-btn" onclick="switchReportTab('tabOrders')">📝 داواکارییەکان</button>
       <button class="tab-btn" onclick="switchReportTab('tabProducts')">📦 کاڵاکان</button>
-      <button class="tab-btn" onclick="switchReportTab('tabMandubs')">👥 مندوبەکان</button>
+      <button class="tab-btn" onclick="switchReportTab('tabMandubs')"> مندوبەکان</button>
     </div>
     
     <div id="tabOverview" class="tab-content active">
@@ -1571,14 +1576,12 @@ function saveShop() {
 
 let orderQuantities = {}; 
 
-// ===== NEW: MANDUB NEW ORDER WITH 2x2 GRID & SHOP REGISTRATION =====
 function renderNewOrder() {
   const myShops = DB.shops.filter(s=>s.mandubId===currentUser.id);
   
   let html = `<div class="panel">
     <div class="panel-head"><h2>📝 داواکاری نوێ</h2></div>
     
-    <!-- STEP 1: Products in 2x2 Grid -->
     <label style="font-weight:bold;font-size:17px;display:block;margin-bottom:10px;color:#1e293b">
       ١. کاڵاکان هەڵبژێرە (کلیک لەسەر وێنە بۆ گەورەکردن):
     </label>`;
@@ -1613,7 +1616,6 @@ function renderNewOrder() {
     html += '</div>';
   }
   
-  // Preview Box
   html += `
     <hr style="margin:20px 0;border-color:#e2e8f0">
     <label style="font-weight:bold;font-size:17px;display:block;margin-bottom:10px;color:#1e293b">
@@ -1623,7 +1625,6 @@ function renderNewOrder() {
       <p style="color:#64748b">هیچ کاڵایەک هەڵنەبژێردراوە</p>
     </div>`;
   
-  // STEP 2: Shop Selection OR Add New Shop
   if (myShops.length > 0) {
     html += `
       <div class="shop-select-section">
@@ -1643,7 +1644,6 @@ function renderNewOrder() {
       </div>`;
   }
   
-  // Note & Submit
   html += `
     <label style="display:block;margin-top:15px;font-weight:bold">تێبینی بۆ Admin:</label>
     <textarea id="orderNote" rows="2" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-top:5px"></textarea>
@@ -1690,7 +1690,7 @@ function saveShopFromOrder() {
   DB.users.filter(u=>u.role==='admin').forEach(a => addNotif(a.id, `${currentUser.name} دوکانی "${data.name}" ی تۆمارکرد`));
   saveDB(); 
   closeModal(); 
-  render(); // Re-render to show new shop in dropdown
+  render();
   alert('✅ دوکان بە سەرکەوتوویی تۆمارکرا! ئێستا دەتوانیت هەڵیبژێریت');
 }
 
@@ -1838,7 +1838,7 @@ function renderMyAccount() {
     });
   });
   let html = `<div class="panel">
-    <div class="panel-head"><h2> حسابی من - ${currentUser.name}</h2></div>
+    <div class="panel-head"><h2>💳 حسابی من - ${currentUser.name}</h2></div>
     <div class="stats">
       ${statCard('کەلوپەلی وەرگیراو', fmt(stats.received), '')}
       ${statCard('پارەی وەرگرتووم لە دوکان', fmt(stats.collected), 'green')}
@@ -1849,13 +1849,13 @@ function renderMyAccount() {
       <div class="tab-buttons">
         <button class="tab-btn active" onclick="switchTab('tabPending')">⏳ چاوەڕوان (${pendingOrders.length})</button>
         <button class="tab-btn" onclick="switchTab('tabApproved')">✅ قبوڵکراو (${approvedOrders.length})</button>
-        <button class="tab-btn" onclick="switchTab('tabDelivered')"> تسلیمکراو (${deliveredOrders.length})</button>
-        <button class="tab-btn" onclick="switchTab('tabRejected')"> ڕەتکراوە (${rejectedOrders.length})</button>
+        <button class="tab-btn" onclick="switchTab('tabDelivered')">📦 تسلیمکراو (${deliveredOrders.length})</button>
+        <button class="tab-btn" onclick="switchTab('tabRejected')">❌ ڕەتکراوە (${rejectedOrders.length})</button>
         <button class="tab-btn" onclick="switchTab('tabProducts')">📦 کۆی کاڵاکان</button>
-        <button class="tab-btn" onclick="switchTab('tabPayments')">💰 مێژووی پارەدان</button>
+        <button class="tab-btn" onclick="switchTab('tabPayments')"> مێژووی پارەدان</button>
       </div>
       <div id="tabPending" class="tab-content active">
-        <h4 style="margin-bottom:10px"> داواکارییە چاوەڕوانەکان (بۆ قبوڵکردنی Admin)</h4>`;
+        <h4 style="margin-bottom:10px">⏳ داواکارییە چاوەڕوانەکان (بۆ قبوڵکردنی Admin)</h4>`;
   if (pendingOrders.length === 0) html += '<p style="color:#64748b">هیچ داواکارییەکی چاوەڕوان نییە</p>';
   else {
     html += '<div class="table-wrap"><table><tr><th>#</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>کردار</th></tr>';
