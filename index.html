@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سیستەمی دابەشکردنی مۆبایل</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Arial, sans-serif; }
+body { background:#f0f2f5; color:#222; min-height:100vh; }
+.hidden { display:none !important; }
+
+.login-wrap { min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#667eea,#764ba2); }
+.login-box { background:#fff; padding:35px; border-radius:15px; box-shadow:0 10px 30px rgba(0,0,0,.2); width:360px; max-width:95%; }
+.login-box h2 { text-align:center; margin-bottom:25px; color:#333; }
+.login-box input { width:100%; padding:12px; margin-bottom:12px; border:1px solid #ddd; border-radius:8px; font-size:15px; }
+.login-box button { width:100%; padding:12px; background:#667eea; color:#fff; border:none; border-radius:8px; font-size:16px; cursor:pointer; font-weight:bold; }
+.login-box button:hover { background:#5568d3; }
+.login-hint { font-size:12px; color:#666; margin-top:15px; text-align:center; line-height:1.7; background:#f8f9fa; padding:10px; border-radius:8px; }
+
+.app { display:flex; min-height:100vh; }
+.sidebar { width:240px; background:#1e293b; color:#fff; padding:20px 0; position:fixed; height:100vh; overflow-y:auto; right:0; top:0; z-index:100; }
+.sidebar h3 { padding:0 20px 15px; border-bottom:1px solid #334155; margin-bottom:15px; font-size:16px; }
+.sidebar .user-info { padding:0 20px 15px; font-size:13px; color:#94a3b8; border-bottom:1px solid #334155; margin-bottom:15px; }
+.sidebar a { display:block; padding:12px 20px; color:#cbd5e1; text-decoration:none; cursor:pointer; border-right:3px solid transparent; transition:.2s; font-size:14px; }
+.sidebar a:hover, .sidebar a.active { background:#334155; color:#fff; border-right-color:#667eea; }
+.sidebar .logout { color:#f87171; margin-top:20px; }
+
+.main { flex:1; margin-right:240px; padding:25px; }
+.topbar { background:#fff; padding:15px 25px; border-radius:10px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,.05); }
+.topbar h1 { font-size:22px; color:#334155; }
+.notif-btn { position:relative; background:#667eea; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; }
+.notif-btn .badge { position:absolute; top:-5px; left:-5px; background:#ef4444; color:#fff; border-radius:50%; width:20px; height:20px; font-size:11px; display:flex; align-items:center; justify-content:center; }
+
+.stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-bottom:25px; }
+.stat-card { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,.05); border-right:4px solid #667eea; }
+.stat-card .label { color:#64748b; font-size:13px; margin-bottom:8px; }
+.stat-card .value { font-size:24px; font-weight:bold; color:#1e293b; }
+.stat-card.green { border-right-color:#10b981; }
+.stat-card.orange { border-right-color:#f59e0b; }
+.stat-card.red { border-right-color:#ef4444; }
+
+.panel { background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 5px rgba(0,0,0,.05); margin-bottom:20px; }
+.panel-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px; }
+.panel-head h2 { font-size:18px; color:#334155; }
+
+.btn { padding:8px 16px; border:none; border-radius:6px; cursor:pointer; font-size:14px; font-weight:500; transition:.2s; }
+.btn-primary { background:#667eea; color:#fff; }
+.btn-primary:hover { background:#5568d3; }
+.btn-success { background:#10b981; color:#fff; }
+.btn-success:hover { background:#059669; }
+.btn-danger { background:#ef4444; color:#fff; }
+.btn-danger:hover { background:#dc2626; }
+.btn-warning { background:#f59e0b; color:#fff; }
+.btn-sm { padding:5px 10px; font-size:12px; }
+.btn-lg { padding:12px 24px; font-size:16px; }
+
+table { width:100%; border-collapse:collapse; }
+th, td { padding:10px 12px; text-align:right; border-bottom:1px solid #e2e8f0; font-size:14px; white-space:nowrap; }
+th { background:#f8fafc; color:#475569; font-weight:600; }
+tr:hover { background:#f8fafc; }
+.table-wrap { overflow-x:auto; }
+
+.form-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+.form-grid label { display:flex; flex-direction:column; font-size:13px; color:#475569; }
+.form-grid input, .form-grid select, .form-grid textarea { padding:9px; border:1px solid #d1d5db; border-radius:6px; font-size:14px; margin-top:4px; font-family:inherit; }
+.form-actions { margin-top:15px; display:flex; gap:10px; flex-wrap:wrap; }
+
+.modal { position:fixed; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; z-index:1000; padding:15px; }
+.modal-box { background:#fff; border-radius:12px; padding:25px; max-width:750px; width:100%; max-height:90vh; overflow-y:auto; }
+.modal-box h3 { margin-bottom:15px; color:#334155; }
+
+.badge-status { padding:3px 10px; border-radius:12px; font-size:12px; font-weight:500; display:inline-block; }
+.status-pending { background:#fef3c7; color:#92400e; }
+.status-approved { background:#d1fae5; color:#065f46; }
+.status-rejected { background:#fee2e2; color:#991b1b; }
+.status-delivered { background:#dbeafe; color:#1e40af; }
+.status-active { background:#d1fae5; color:#065f46; }
+.status-inactive { background:#fee2e2; color:#991b1b; }
+
+.notif-panel { position:fixed; top:70px; left:20px; background:#fff; border-radius:10px; box-shadow:0 5px 20px rgba(0,0,0,.15); width:320px; max-height:400px; overflow-y:auto; z-index:999; padding:10px; }
+.notif-item { padding:10px; border-bottom:1px solid #e2e8f0; font-size:13px; }
+.notif-item:last-child { border:none; }
+
+.product-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(160px, 1fr)); gap:15px; margin-top:15px; }
+.product-card { background:#fff; border:1px solid #e2e8f0; border-radius:10px; overflow:hidden; display:flex; flex-direction:column; }
+.product-img { width:100%; height:140px; object-fit:cover; background:#f1f5f9; }
+.product-info { padding:10px; flex:1; }
+.product-name { font-weight:600; font-size:14px; margin-bottom:5px; }
+.product-price { color:#667eea; font-weight:bold; font-size:13px; }
+.product-stock { font-size:11px; color:#94a3b8; }
+.qty-control { display:flex; align-items:center; justify-content:center; gap:10px; padding:10px; background:#f8fafc; border-top:1px solid #e2e8f0; }
+.qty-btn { width:28px; height:28px; border-radius:50%; border:none; background:#667eea; color:#fff; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.qty-btn:disabled { background:#cbd5e1; cursor:not-allowed; }
+.qty-val { font-weight:bold; width:30px; text-align:center; }
+
+.preview-box { background:#f8fafc; padding:15px; border-radius:8px; margin-top:15px; border:1px dashed #cbd5e1; }
+
+.img-preview-box { width:100px; height:100px; border:2px dashed #cbd5e1; border-radius:8px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top:5px; cursor:pointer; position:relative; }
+.img-preview-box img { width:100%; height:100%; object-fit:cover; }
+.img-preview-box span { color:#94a3b8; font-size:12px; text-align:center; padding:5px; }
+
+.shop-detail-section { margin-bottom:20px; }
+.shop-detail-section h4 { color:#334155; margin-bottom:10px; padding-bottom:8px; border-bottom:2px solid #667eea; font-size:16px; }
+.shop-card { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:15px; margin-bottom:12px; }
+.shop-card-header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
+.shop-card-title { font-weight:bold; font-size:15px; color:#1e293b; }
+.shop-card-sub { font-size:12px; color:#64748b; }
+.shop-card-stats { text-align:left; }
+.shop-card-total { font-weight:bold; color:#667eea; font-size:14px; }
+.shop-card-debt { font-size:12px; color:#ef4444; }
+.shop-card-debt.paid { color:#10b981; }
+.delivery-item { background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:10px; margin-top:10px; }
+.delivery-date { font-size:12px; color:#64748b; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
+.product-row { display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px dashed #e2e8f0; font-size:13px; }
+.product-row:last-child { border-bottom:none; }
+.product-row img { width:35px; height:35px; border-radius:6px; object-fit:cover; flex-shrink:0; }
+.product-row-name { flex:1; font-weight:500; }
+.product-row-qty { background:#667eea; color:#fff; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:bold; }
+.product-row-price { color:#475569; font-size:12px; }
+.product-row-total { font-weight:bold; color:#1e293b; font-size:13px; min-width:80px; text-align:left; }
+
+.summary-table { width:100%; border-collapse:collapse; margin-top:10px; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.1); }
+.summary-table th { background:#667eea; color:#fff; padding:12px; font-size:14px; font-weight:600; }
+.summary-table td { padding:12px; border-bottom:1px solid #e2e8f0; font-size:14px; }
+.summary-table tr:hover { background:#f8fafc; }
+.summary-table tr:last-child td { border-bottom:none; }
+.summary-table img { width:40px; height:40px; border-radius:6px; object-fit:cover; vertical-align:middle; margin-left:8px; }
+.summary-table .qty-badge { background:#667eea; color:#fff; padding:4px 12px; border-radius:12px; font-weight:bold; font-size:13px; }
+.summary-table .qty-badge.delivered { background:#94a3b8; }
+
+.filter-bar { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:15px; padding:12px; background:#f8fafc; border-radius:8px; }
+.filter-bar label { font-weight:600; color:#475569; }
+.filter-bar select, .filter-bar input { padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:14px; }
+
+.tab-container { margin-bottom:15px; }
+.tab-buttons { display:flex; gap:5px; flex-wrap:wrap; border-bottom:2px solid #e2e8f0; padding-bottom:0; }
+.tab-btn { padding:10px 20px; border:none; background:transparent; cursor:pointer; font-size:14px; font-weight:500; color:#64748b; border-bottom:3px solid transparent; margin-bottom:-2px; transition:.2s; }
+.tab-btn:hover { color:#334155; }
+.tab-btn.active { color:#667eea; border-bottom-color:#667eea; }
+.tab-content { display:none; padding:15px 0; }
+.tab-content.active { display:block; }
+
+.products-summary-box { background:#f0f9ff; border:2px solid #0ea5e9; border-radius:12px; padding:20px; margin-bottom:20px; }
+.products-summary-box h4 { color:#0369a1; margin-bottom:15px; font-size:16px; display:flex; align-items:center; gap:8px; }
+
+.payment-form-box { background:#f0fdf4; border:2px solid #10b981; border-radius:10px; padding:15px; margin:15px 0; }
+.payment-form-box h4 { color:#065f46; margin-bottom:10px; }
+.payment-form-row { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+.payment-form-row label { flex:1; min-width:120px; }
+.payment-form-row input, .payment-form-row select { width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:14px; }
+
+@media (max-width: 768px) {
+  .sidebar { width:100%; height:auto; position:relative; }
+  .main { margin-right:0; }
+  .app { flex-direction:column; }
+  .sidebar h3, .sidebar .user-info { display:none; }
+  .sidebar { display:flex; flex-wrap:wrap; padding:10px; }
+  .sidebar a { padding:8px 12px; font-size:13px; }
+  table { font-size:12px; }
+  th, td { white-space:normal; }
+  .product-row { flex-wrap:wrap; }
+  .shop-card-header { flex-direction:column; align-items:flex-start; }
+  .payment-form-row { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<div id="loginPage" class="login-wrap">
+  <div class="login-box">
+    <h2> چوونەژوورەوە</h2>
+    <input type="text" id="loginUser" placeholder="Username">
+    <input type="password" id="loginPass" placeholder="Password">
+    <button onclick="doLogin()">چوونەژوورەوە</button>
+    <div class="login-hint">
+      <b>Super Admin:</b> supasadmin / admin<br>
+      <b>Admin:</b> admin / admin<br>
+      <b>Mandub:</b> mandub / mandub
+    </div>
+  </div>
+</div>
+
+<div id="appPage" class="app hidden">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main">
+    <div class="topbar">
+      <h1 id="pageTitle">داشبۆرد</h1>
+      <button class="notif-btn" onclick="toggleNotif()">🔔 ئاگاداری <span class="badge" id="notifBadge">0</span></button>
+    </div>
+    <div id="notifPanel" class="notif-panel hidden"></div>
+    <div id="content"></div>
+  </main>
+</div>
+
+<div id="modalContainer"></div>
+
+<script>
+const DB_KEY = 'mobile_system_db_final_v8';
+
+function defaultDB() {
+  return {
+    users: [
+      { id:1, username:'supasadmin', password:'admin', role:'superadmin', name:'سوپەر ئەدمین', active:true },
+      { id:2, username:'admin', password:'admin', role:'admin', name:'ئەدمین', active:true },
+      { id:3, username:'mandub', password:'mandub', role:'mandub', name:'Dzhwar', phone:'07500000000', address:'هەولێر', code:'M001', active:true },
+      { id:4, username:'mandub2', password:'mandub', role:'mandub', name:'Rizgar', phone:'07509999999', address:'سلێمانی', code:'M002', active:true }
+    ],
+    shops: [
+      { id:1, mandubId:3, name:'ABC Mobile', owner:'ئەحمەد', phone:'07501111111', address:'هەولێر', city:'هەولێر', code:'S001', notes:'' },
+      { id:2, mandubId:3, name:'XYZ Phone', owner:'کاروان', phone:'07502222222', address:'هەولێر', city:'هەولێر', code:'S002', notes:'' },
+      { id:3, mandubId:4, name:'Rizgar Tech', owner:'ڕزگار', phone:'07503333333', address:'سلێمانی', city:'سلێمانی', code:'S003', notes:'' }
+    ],
+    products: [
+      { id:1, name:'iPhone 15 Pro', code:'P001', buyPrice:900000, sellPrice:1100000, stock:10, image:'' },
+      { id:2, name:'Samsung A55', code:'P002', buyPrice:300000, sellPrice:380000, stock:20, image:'' },
+      { id:3, name:'Charger Type-C', code:'P003', buyPrice:3000, sellPrice:5000, stock:100, image:'' }
+    ],
+    orders: [],
+    deliveries: [],
+    payments: [],
+    shopPayments: [],
+    notifications: [],
+    history: []
+  };
+}
+
+function loadDB() {
+  const d = localStorage.getItem(DB_KEY);
+  if (!d) { const def = defaultDB(); localStorage.setItem(DB_KEY, JSON.stringify(def)); return def; }
+  return JSON.parse(d);
+}
+function saveDB() { 
+  try { localStorage.setItem(DB_KEY, JSON.stringify(DB)); } 
+  catch (e) { alert('ئاگادار: کۆگا پڕبووە! تکایە وێنەی بچووکتر بەکاربهێنە.'); }
+}
+let DB = loadDB();
+let currentUser = null;
+let currentPage = 'dashboard';
+let tempImageBase64 = ''; 
+let currentMandubIdForPayment = null;
+let currentFilterStatus = 'all';
+let currentFilterMandub = 'all';
+
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const user = DB.users.find(x => x.username===u && x.password===p && x.active);
+  if (!user) { alert('Username یان Password هەڵەیە، یان حساب ناچالاکە'); return; }
+  currentUser = user;
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('appPage').classList.remove('hidden');
+  buildSidebar();
+  go('dashboard');
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('appPage').classList.add('hidden');
+  document.getElementById('loginPage').classList.remove('hidden');
+}
+
+function buildSidebar() {
+  const sb = document.getElementById('sidebar');
+  let menu = `<h3>سیستەمی مۆبایل</h3>`;
+  menu += `<div class="user-info">${currentUser.name}<br><small>${currentUser.role}</small></div>`;
+  menu += `<a onclick="go('dashboard')" class="active" id="nav-dashboard">🏠 داشبۆرد</a>`;
+
+  if (currentUser.role === 'superadmin') {
+    menu += `<a onclick="go('admins')" id="nav-admins">‍💼 بەڕێوەبردنی Admin</a>`;
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑‍💼 مندوبەکان</a>`;
+    menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
+    menu += `<a onclick="go('products')" id="nav-products">📦 کەلوپەلەکان</a>`;
+    menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
+    menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردنەکان</a>`;
+    menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوبەکان</a>`;
+    menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکانەکان</a>`;
+    menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرتی گشتی</a>`;
+    menu += `<a onclick="go('history')" id="nav-history">📜 مێژوو</a>`;
+  } else if (currentUser.role === 'admin') {
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑💼 بەڕێوەبردنی مندوب</a>`;
+    menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
+    menu += `<a onclick="go('products')" id="nav-products">📦 کۆگا / کەلوپەل</a>`;
+    menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
+    menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردن</a>`;
+    menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوب</a>`;
+    menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکان</a>`;
+    menu += `<a onclick="go('reports')" id="nav-reports"> ڕاپۆرت</a>`;
+  } else if (currentUser.role === 'mandub') {
+    menu += `<a onclick="go('myShops')" id="nav-myShops"> دوکانەکانم</a>`;
+    menu += `<a onclick="go('newOrder')" id="nav-newOrder">📝 داواکاری نوێ</a>`;
+    menu += `<a onclick="go('myOrders')" id="nav-myOrders">📋 داواکارییەکانم</a>`;
+    menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries">📦 وەرگرتنەکان</a>`;
+    menu += `<a onclick="go('myAccount')" id="nav-myAccount">💳 حسابی من</a>`;
+    menu += `<a onclick="go('myShopAccounts')" id="nav-myShopAccounts">💰 حسابی دوکانەکانم</a>`;
+    menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay">💵 تۆمارکردنی پارە</a>`;
+  }
+  menu += `<a class="logout" onclick="logout()">🚪 چوونەدەرەوە</a>`;
+  sb.innerHTML = menu;
+}
+
+function go(page) {
+  currentPage = page;
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  const nav = document.getElementById('nav-'+page);
+  if (nav) nav.classList.add('active');
+  const titles = {
+    dashboard:'داشبۆرد', admins:'بەڕێوەبردنی Admin', mandubs:'مندوبەکان',
+    shops:'دوکانەکان', products:'کەلوپەلەکان', orders:'داواکارییەکان',
+    deliveries:'تسلیمکردن', mandubAccounts:'حسابی مندوبەکان', shopAccounts:'حسابی دوکانەکان',
+    reports:'ڕاپۆرت', history:'مێژوو', myShops:'دوکانەکانم', newOrder:'داواکاری نوێ',
+    myOrders:'داواکارییەکانم', myDeliveries:'وەرگرتنەکان', myShopAccounts:'حسابی دوکانەکانم',
+    recordShopPay:'تۆمارکردنی پارە', myAccount:'حسابی من'
+  };
+  document.getElementById('pageTitle').innerText = titles[page] || '';
+  render();
+  updateNotifBadge();
+}
+
+function render() {
+  const c = document.getElementById('content');
+  const map = {
+    dashboard: () => renderDashboard(),
+    admins: () => renderAdmins(),
+    mandubs: () => renderMandubs(),
+    shops: () => renderShops(),
+    products: () => renderProducts(),
+    orders: () => renderOrders(),
+    deliveries: () => renderDeliveries(),
+    mandubAccounts: () => renderMandubAccounts(),
+    shopAccounts: () => renderShopAccounts(),
+    reports: () => renderReports(),
+    history: () => renderHistory(),
+    myShops: () => renderMyShops(),
+    newOrder: () => renderNewOrder(),
+    myOrders: () => renderMyOrders(),
+    myDeliveries: () => renderMyDeliveries(),
+    myShopAccounts: () => renderMyShopAccounts(),
+    recordShopPay: () => renderRecordShopPay(),
+    myAccount: () => renderMyAccount()
+  };
+  c.innerHTML = (map[currentPage] || (()=>'<div class="panel">لاپەڕە نەدۆزرایەوە</div>'))();
+}
+
+function fmt(n) { return Number(n||0).toLocaleString('en-US') + ' د.ع'; }
+function now() { return new Date().toLocaleString('en-GB'); }
+function getUser(id) { return DB.users.find(u=>u.id===id); }
+function getShop(id) { return DB.shops.find(s=>s.id===id); }
+function getProduct(id) { return DB.products.find(p=>p.id===id); }
+function nextId(arr) { return arr.length ? Math.max(...arr.map(x=>x.id))+1 : 1; }
+function addHistory(type, details) {
+  DB.history.push({ id:nextId(DB.history), date:now(), user:currentUser.name, role:currentUser.role, type, details });
+  saveDB();
+}
+function addNotif(userId, message) {
+  DB.notifications.push({ id:nextId(DB.notifications), userId, message, date:now(), read:false });
+  saveDB();
+}
+
+function renderDashboard() {
+  const r = currentUser.role;
+  let html = '<div class="stats">';
+  if (r === 'superadmin' || r === 'admin') {
+    html += statCard('کۆی مندوبەکان', DB.users.filter(u=>u.role==='mandub').length, '');
+    html += statCard('کۆی دوکانەکان', DB.shops.length, 'green');
+    html += statCard('کۆی کەلوپەل', DB.products.length, 'orange');
+    html += statCard('کۆی دانە لە کۆگا', DB.products.reduce((s,p)=>s+p.stock,0), '');
+    html += statCard('داواکاری چاوەڕوان', DB.orders.filter(o=>o.status==='pending').length, 'red');
+    html += statCard('کۆی قەرز', fmt(calcTotalDebt()), 'red');
+    if (r === 'superadmin') html += statCard('کۆی Admin', DB.users.filter(u=>u.role==='admin').length, 'green');
+  } else {
+    html += statCard('دوکانەکانم', DB.shops.filter(s=>s.mandubId===currentUser.id).length, '');
+    html += statCard('داواکارییەکانم', DB.orders.filter(o=>o.mandubId===currentUser.id).length, 'green');
+    html += statCard('چاوەڕوانی Admin', DB.orders.filter(o=>o.mandubId===currentUser.id && o.status==='pending').length, 'orange');
+    html += statCard('قەرزم', fmt(calcMandubDebt(currentUser.id)), 'red');
+  }
+  html += '</div>';
+  html += '<div class="panel"><div class="panel-head"><h2>چالاکییەکانی ئەم دواییانە</h2></div>';
+  const recent = DB.history.slice(-8).reverse();
+  if (recent.length) {
+    html += '<table><tr><th>بەروار</th><th>بەکارهێنەر</th><th>جۆر</th><th>وردەکاری</th></tr>';
+    recent.forEach(h => html += `<tr><td>${h.date}</td><td>${h.user}</td><td>${h.type}</td><td>${h.details}</td></tr>`);
+    html += '</table>';
+  } else html += '<p>هیچ چالاکییەک نییە</p>';
+  html += '</div>';
+  return html;
+}
+function statCard(label, value, color) {
+  return `<div class="stat-card ${color}"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+}
+
+function renderAdmins() {
+  const admins = DB.users.filter(u=>u.role==='admin');
+  let html = `<div class="panel"><div class="panel-head"><h2>لیستی Admin</h2>
+    <button class="btn btn-primary" onclick="adminForm()">+ زیادکردنی Admin</button></div>
+    <div class="table-wrap"><table><tr><th>#</th><th>ناو</th><th>Username</th><th>دۆخ</th><th>کردار</th></tr>`;
+  admins.forEach(a => {
+    html += `<tr><td>${a.id}</td><td>${a.name}</td><td>${a.username}</td>
+      <td><span class="badge-status ${a.active?'status-active':'status-inactive'}">${a.active?'چالاک':'ناچالاک'}</span></td>
+      <td>
+        <button class="btn btn-sm btn-warning" onclick="toggleUser(${a.id})">${a.active?'ناچالاک':'چالاک'}</button>
+        <button class="btn btn-sm btn-danger" onclick="delUser(${a.id})">سڕینەوە</button>
+      </td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+function adminForm(id) {
+  const a = id ? getUser(id) : { name:'', username:'', password:'' };
+  openModal(id ? 'گۆڕینی Admin' : 'Admin ی نوێ', `
+    <div class="form-grid">
+      <label>ناو<input id="f_name" value="${a.name}"></label>
+      <label>Username<input id="f_user" value="${a.username}"></label>
+      <label>Password<input id="f_pass" value="${a.password}"></label>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveAdmin(${id||0})">پاشەکەوتکردن</button>
+      <button class="btn btn-danger" onclick="closeModal()">پاشگەزبوونەوە</button>
+    </div>`);
+}
+function saveAdmin(id) {
+  const name = document.getElementById('f_name').value.trim();
+  const username = document.getElementById('f_user').value.trim();
+  const password = document.getElementById('f_pass').value;
+  if (!name || !username || !password) { alert('هەموو خانەکان پڕبکەرەوە'); return; }
+  if (id) {
+    const a = getUser(id); a.name=name; a.username=username; a.password=password;
+    addHistory('گۆڕینی Admin', a.name);
+  } else {
+    if (DB.users.some(u=>u.username===username)) { alert('Username دووبارەیە'); return; }
+    DB.users.push({ id:nextId(DB.users), name, username, password, role:'admin', active:true });
+    addHistory('زیادکردنی Admin', name);
+  }
+  saveDB(); closeModal(); render();
+}
+
+function renderMandubs() {
+  const list = DB.users.filter(u=>u.role==='mandub');
+  let html = `<div class="panel"><div class="panel-head"><h2>لیستی مندوبەکان</h2>
+    <button class="btn btn-primary" onclick="mandubForm()">+ تۆمارکردنی مندوب</button></div>
+    <div class="table-wrap"><table><tr><th>#</th><th>ناو</th><th>مۆبایل</th><th>ناوچە</th><th>کۆد</th><th>Username</th><th>دۆخ</th><th>کردار</th></tr>`;
+  list.forEach(m => {
+    html += `<tr><td>${m.id}</td><td>${m.name}</td><td>${m.phone||''}</td><td>${m.address||''}</td>
+      <td>${m.code||''}</td><td>${m.username}</td>
+      <td><span class="badge-status ${m.active?'status-active':'status-inactive'}">${m.active?'چالاک':'ناچالاک'}</span></td>
+      <td>
+        <button class="btn btn-sm btn-primary" onclick="mandubForm(${m.id})">گۆڕین</button>
+        <button class="btn btn-sm btn-warning" onclick="toggleUser(${m.id})">${m.active?'ناچالاک':'چالاک'}</button>
+        <button class="btn btn-sm btn-danger" onclick="delUser(${m.id})">سڕینەوە</button>
+      </td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+function mandubForm(id) {
+  const m = id ? getUser(id) : { name:'', phone:'', address:'', code:'', username:'', password:'' };
+  openModal(id?'گۆڕینی مندوب':'تۆمارکردنی مندوب', `
+    <div class="form-grid">
+      <label>ناوی تەواو<input id="f_name" value="${m.name}"></label>
+      <label>ژمارەی مۆبایل<input id="f_phone" value="${m.phone||''}"></label>
+      <label>ناونیشان<input id="f_addr" value="${m.address||''}"></label>
+      <label>کۆدی تایبەت<input id="f_code" value="${m.code||''}"></label>
+      <label>Username<input id="f_user" value="${m.username}"></label>
+      <label>Password<input id="f_pass" value="${m.password}"></label>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveMandub(${id||0})">پاشەکەوتکردن</button>
+      <button class="btn btn-danger" onclick="closeModal()">پاشگەزبوونەوە</button>
+    </div>`);
+}
+function saveMandub(id) {
+  const data = {
+    name: document.getElementById('f_name').value.trim(),
+    phone: document.getElementById('f_phone').value.trim(),
+    address: document.getElementById('f_addr').value.trim(),
+    code: document.getElementById('f_code').value.trim(),
+    username: document.getElementById('f_user').value.trim(),
+    password: document.getElementById('f_pass').value
+  };
+  if (!data.name || !data.username || !data.password) { alert('ناو، Username و Password پێویستن'); return; }
+  if (id) { const m = getUser(id); Object.assign(m, data); addHistory('گۆڕینی مندوب', m.name); }
+  else {
+    if (DB.users.some(u=>u.username===data.username)) { alert('Username دووبارەیە'); return; }
+    DB.users.push({ id:nextId(DB.users), role:'mandub', active:true, ...data });
+    addHistory('تۆمارکردنی مندوب', data.name);
+  }
+  saveDB(); closeModal(); render();
+}
+
+function toggleUser(id) {
+  const u = getUser(id); u.active = !u.active;
+  addHistory('گۆڕینی دۆخ', u.name + ' → ' + (u.active?'چالاک':'ناچالاک'));
+  saveDB(); render();
+}
+function delUser(id) {
+  if (!confirm('دڵنیایت لە سڕینەوە؟')) return;
+  const u = getUser(id); DB.users = DB.users.filter(x=>x.id!==id);
+  addHistory('سڕینەوە', u.name); saveDB(); render();
+}
+
+function renderShops() {
+  let html = `<div class="panel"><div class="panel-head"><h2>هەموو دوکانەکان</h2></div>
+    <div class="table-wrap"><table><tr><th>#</th><th>ناو</th><th>خاوەن</th><th>مۆبایل</th><th>شار</th><th>کۆد</th><th>مەندوب</th></tr>`;
+  DB.shops.forEach(s => {
+    const m = getUser(s.mandubId);
+    html += `<tr><td>${s.id}</td><td>${s.name}</td><td>${s.owner||''}</td><td>${s.phone||''}</td>
+      <td>${s.city||''}</td><td>${s.code||''}</td><td>${m?m.name:'-'}</td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+
+function renderProducts() {
+  let html = `<div class="panel"><div class="panel-head"><h2>کۆگا / کەلوپەل</h2>
+    <button class="btn btn-primary" onclick="productForm()">+ زیادکردنی کەلوپەل</button></div>
+    <div class="table-wrap"><table><tr><th>وێنە</th><th>ناو</th><th>کۆد</th><th>نرخی کڕین</th><th>نرخی فرۆشتن</th><th>دانە</th><th>کردار</th></tr>`;
+  DB.products.forEach(p => {
+    const img = p.image ? `<img src="${p.image}" style="width:40px;height:40px;border-radius:4px;object-fit:cover">` : '-';
+    html += `<tr><td>${img}</td><td>${p.name}</td><td>${p.code||''}</td>
+      <td>${fmt(p.buyPrice)}</td><td>${fmt(p.sellPrice)}</td><td>${p.stock}</td>
+      <td>
+        <button class="btn btn-sm btn-primary" onclick="productForm(${p.id})">گۆڕین</button>
+        <button class="btn btn-sm btn-danger" onclick="delProduct(${p.id})">سڕینەوە</button>
+      </td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+function productForm(id) {
+  const p = id ? getProduct(id) : { name:'', code:'', buyPrice:0, sellPrice:0, stock:0, image:'' };
+  tempImageBase64 = p.image || ''; 
+  openModal(id?'گۆڕینی کەلوپەل':'کەلوپەلی نوێ', `
+    <div class="form-grid">
+      <label>ناو<input id="f_name" value="${p.name}"></label>
+      <label>کۆد<input id="f_code" value="${p.code||''}"></label>
+      <label>نرخی کڕین<input type="number" id="f_buy" value="${p.buyPrice}"></label>
+      <label>نرخی فرۆشتن<input type="number" id="f_sell" value="${p.sellPrice}"></label>
+      <label>ژمارەی دانە<input type="number" id="f_stock" value="${p.stock}"></label>
+    </div>
+    <div style="margin-top:15px">
+      <label style="font-weight:bold">وێنەی کاڵا (هەڵبژاردن لە ئامێر):</label>
+      <input type="file" id="f_img_file" accept="image/*" onchange="previewImage(this)" style="margin-top:5px">
+      <div class="img-preview-box" onclick="document.getElementById('f_img_file').click()">
+        ${tempImageBase64 ? `<img id="imgPreview" src="${tempImageBase64}">` : `<span id="imgPreviewText">وێنە هەڵبژێرە<br>(Click)</span><img id="imgPreview" class="hidden">`}
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveProduct(${id||0})">پاشەکەوتکردن</button>
+      <button class="btn btn-danger" onclick="closeModal()">پاشگەزبوونەوە</button>
+    </div>`);
+}
+function previewImage(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      tempImageBase64 = e.target.result;
+      const img = document.getElementById('imgPreview');
+      const txt = document.getElementById('imgPreviewText');
+      if(img) { img.src = tempImageBase64; img.classList.remove('hidden'); }
+      if(txt) txt.classList.add('hidden');
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+function saveProduct(id) {
+  const data = {
+    name: document.getElementById('f_name').value.trim(),
+    code: document.getElementById('f_code').value.trim(),
+    buyPrice: +document.getElementById('f_buy').value,
+    sellPrice: +document.getElementById('f_sell').value,
+    stock: +document.getElementById('f_stock').value,
+    image: tempImageBase64 
+  };
+  if (!data.name) { alert('ناو پێویستە'); return; }
+  if (id) { Object.assign(getProduct(id), data); addHistory('گۆڕینی کەلوپەل', data.name); }
+  else { DB.products.push({ id:nextId(DB.products), ...data }); addHistory('زیادکردنی کەلوپەل', data.name); }
+  saveDB(); closeModal(); render();
+}
+function delProduct(id) {
+  if (!confirm('سڕینەوە؟')) return;
+  const p = getProduct(id); DB.products = DB.products.filter(x=>x.id!==id);
+  addHistory('سڕینەوەی کەلوپەل', p.name); saveDB(); render();
+}
+
+// ===== ORDERS WITH AUTO FILTER =====
+function renderOrders() {
+  const r = currentUser.role;
+  let list = DB.orders.slice();
+  let filterHtml = '';
+  
+  // Build Filter Bar for Admin/SuperAdmin
+  if (r === 'admin' || r === 'superadmin') {
+    const mandubs = DB.users.filter(u=>u.role==='mandub');
+    filterHtml = `<div class="filter-bar">
+      <label>فلتەری مندوب:</label>
+      <select id="orderMandubFilter" onchange="applyOrderFilter()">
+        <option value="all">هەموو مندوبەکان</option>`;
+    mandubs.forEach(m => filterHtml += `<option value="${m.id}" ${currentFilterMandub==m.id?'selected':''}>${m.name}</option>`);
+    filterHtml += `</select>
+      <label>فلتەری دۆخ:</label>
+      <select id="orderStatusFilter" onchange="applyOrderFilter()">
+        <option value="all" ${currentFilterStatus==='all'?'selected':''}>هەموو دۆخەکان</option>
+        <option value="pending" ${currentFilterStatus==='pending'?'selected':''}>چاوەڕوان</option>
+        <option value="approved" ${currentFilterStatus==='approved'?'selected':''}>قبوڵکراو</option>
+        <option value="rejected" ${currentFilterStatus==='rejected'?'selected':''}>ڕەتکراوە</option>
+        <option value="delivered" ${currentFilterStatus==='delivered'?'selected':''}>تسلیمکرا</option>
+      </select>
+    </div>`;
+  }
+  
+  // For Mandub, force their own ID
+  if (r === 'mandub') {
+    list = list.filter(o=>o.mandubId===currentUser.id);
+    currentFilterMandub = currentUser.id;
+  }
+  
+  // Apply filters
+  if (currentFilterStatus !== 'all') {
+    list = list.filter(o => o.status === currentFilterStatus);
+  }
+  if (currentFilterMandub !== 'all' && r !== 'mandub') {
+    list = list.filter(o => o.mandubId == currentFilterMandub);
+  }
+  
+  // ===== PRODUCT SUMMARY LOGIC =====
+  let summaryHtml = '';
+  
+  // Only show summary when specific status is selected
+  if (currentFilterStatus === 'approved' || currentFilterStatus === 'delivered') {
+    let ordersToCount = [];
+    
+    if (currentFilterStatus === 'approved') {
+      ordersToCount = DB.orders.filter(o => o.status === 'approved');
+    } else if (currentFilterStatus === 'delivered') {
+      ordersToCount = DB.orders.filter(o => o.status === 'delivered');
+    }
+    
+    // Apply Mandub Filter to Summary
+    if (currentFilterMandub && currentFilterMandub !== 'all') {
+      ordersToCount = ordersToCount.filter(o => o.mandubId == currentFilterMandub);
+    } else if (r === 'mandub') {
+      ordersToCount = ordersToCount.filter(o => o.mandubId === currentUser.id);
+    }
+    
+    if (ordersToCount.length > 0) {
+      const productSummary = {};
+      ordersToCount.forEach(o => {
+        o.items.forEach(i => {
+          if (!productSummary[i.productId]) productSummary[i.productId] = { qty: 0, total: 0 };
+          productSummary[i.productId].qty += i.qty;
+          productSummary[i.productId].total += i.price * i.qty;
+        });
+      });
+      
+      const prodKeys = Object.keys(productSummary);
+      if (prodKeys.length > 0) {
+        let mandubName = '';
+        if (currentFilterMandub && currentFilterMandub !== 'all') {
+          const m = getUser(+currentFilterMandub);
+          mandubName = m ? ` - ${m.name}` : '';
+        }
+        
+        let title = currentFilterStatus === 'approved' ? 'قبوڵکراوەکان' : 'تسلیمکراوەکان';
+        summaryHtml = `<div class="products-summary-box">
+          <h4>📦 کۆی هەموو کاڵاکان (${title})${mandubName}</h4>
+          <table class="summary-table">
+            <tr><th>وێنە</th><th>ناوی کاڵا</th><th>کۆی ژمارە</th><th>کۆی بەها</th></tr>`;
+        
+        prodKeys.forEach(pid => {
+          const p = getProduct(+pid);
+          const sum = productSummary[pid];
+          const img = p && p.image ? `<img src="${p.image}">` : '<div style="width:40px;height:40px;background:#f1f5f9;border-radius:6px"></div>';
+          
+          // Logic: If Delivered, show 0. If Approved, show actual qty
+          let qtyToShow = sum.qty;
+          let totalToShow = sum.total;
+          let badgeClass = 'qty-badge';
+          
+          if (currentFilterStatus === 'delivered') {
+            qtyToShow = 0;
+            totalToShow = 0;
+            badgeClass += ' delivered';
+          }
+          
+          summaryHtml += `<tr>
+            <td>${img}</td>
+            <td><b>${p?p.name:'Unknown'}</b></td>
+            <td><span class="${badgeClass}">${qtyToShow} دانە</span></td>
+            <td><b style="color:${currentFilterStatus==='delivered'?'#94a3b8':'#667eea'}">${fmt(totalToShow)}</b></td>
+          </tr>`;
+        });
+        summaryHtml += '</table>';
+        
+        if (currentFilterStatus === 'delivered') {
+          summaryHtml += '<p style="color:#64748b;text-align:center;padding:10px;font-size:13px">* کاتێک داواکارییەک تسلیم دەکرێت، کاڵاکان لە کۆگا کەم دەکرێنەوە</p>';
+        }
+        summaryHtml += '</div>';
+      }
+    } else {
+      let title = currentFilterStatus === 'approved' ? 'قبوڵکراوەکان' : 'تسلیمکراوەکان';
+      summaryHtml = `<div class="products-summary-box">
+        <h4>📦 کۆی هەموو کاڵاکان (${title})</h4>
+        <p style="color:#64748b;text-align:center;padding:20px">هیچ داواکارییەکی ${title === 'قبوڵکراوەکان' ? 'قبوڵکراو' : 'تسلیمکراو'} نییە</p>
+      </div>`;
+    }
+  }
+  
+  // Render Main Table
+  let html = `<div class="panel"><div class="panel-head"><h2>داواکارییەکان</h2></div>`;
+  html += filterHtml;
+  html += summaryHtml;
+  
+  if (!list.length) { html += '<p>هیچ داواکارییەک نییە</p></div>'; return html; }
+  html += '<div class="table-wrap"><table id="ordersTable"><tr><th>#</th><th>مەندوب</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>دۆخ</th><th>کردار</th></tr>';
+  list.forEach(o => {
+    const m = getUser(o.mandubId);
+    const s = getShop(o.shopId);
+    const total = o.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+    const statusClass = { pending:'status-pending', approved:'status-approved', rejected:'status-rejected', delivered:'status-delivered' }[o.status];
+    const statusText = { pending:'چاوەڕوان', approved:'قبوڵکراو', rejected:'ڕەتکراوە', delivered:'تسلیمکرا' }[o.status];
+    html += `<tr class="order-row" data-mandub="${o.mandubId}" data-status="${o.status}">
+      <td>${o.id}</td><td>${m?m.name:'-'}</td><td>${s?s.name:'-'}</td><td>${o.date}</td>
+      <td>${fmt(total)}</td><td><span class="badge-status ${statusClass}">${statusText}</span></td>
+      <td><button class="btn btn-sm btn-primary" onclick="viewOrder(${o.id})">بینین</button></td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+
+// Auto-filter function that re-renders the page immediately
+function applyOrderFilter() {
+  const statusEl = document.getElementById('orderStatusFilter');
+  const mandubEl = document.getElementById('orderMandubFilter');
+  if (statusEl) currentFilterStatus = statusEl.value;
+  if (mandubEl) currentFilterMandub = mandubEl.value;
+  // Just re-render the whole page to update both table visibility and summary box
+  if (currentPage === 'orders') render();
+}
+
+function viewOrder(id) {
+  const o = DB.orders.find(x=>x.id===id);
+  const m = getUser(o.mandubId);
+  const s = getShop(o.shopId);
+  let itemsHtml = '<table><tr><th>وێنە</th><th>کەلوپەل</th><th>ژمارە</th><th>نرخ</th><th>کۆ</th></tr>';
+  o.items.forEach(i => {
+    const p = getProduct(i.productId);
+    const img = p && p.image ? `<img src="${p.image}" style="width:30px;height:30px;border-radius:4px;object-fit:cover">` : '-';
+    itemsHtml += `<tr><td>${img}</td><td>${p?p.name:'-'}</td><td>${i.qty}</td><td>${fmt(i.price)}</td><td>${fmt(i.price*i.qty)}</td></tr>`;
+  });
+  itemsHtml += '</table>';
+  const total = o.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+  let actions = '';
+  if (currentUser.role === 'admin' && o.status === 'pending') {
+    actions = `<button class="btn btn-success" onclick="approveOrder(${id})">✅ قبوڵکردن</button>
+      <button class="btn btn-danger" onclick="rejectOrder(${id})">❌ ڕەتکردنەوە</button>`;
+  }
+  if (currentUser.role === 'admin' && o.status === 'approved') {
+    actions = `<button class="btn btn-primary" onclick="deliverOrder(${id})">📦 تسلیمکردن بە مندوب</button>`;
+  }
+  if (currentUser.role === 'mandub' && o.status === 'approved') {
+    actions = `<button class="btn btn-success" onclick="mandubReceive(${id})">✅ وەرگرتن</button>`;
+  }
+  openModal(`داواکاری #${id}`, `
+    <p><b>مەندوب:</b> ${m?m.name:'-'}</p>
+    <p><b>دوکان:</b> ${s?s.name:'-'}</p>
+    <p><b>بەروار:</b> ${o.date}</p>
+    <p><b>تێبینی:</b> ${o.note||'نییە'}</p>
+    <hr style="margin:10px 0">
+    ${itemsHtml}
+    <p style="margin-top:10px"><b>کۆی گشتی:</b> ${fmt(total)}</p>
+    <p><b>دۆخ:</b> ${o.status}</p>
+    <div class="form-actions">${actions}
+      <button class="btn btn-danger" onclick="closeModal()">داخستن</button>
+    </div>`);
+}
+function approveOrder(id) {
+  const o = DB.orders.find(x=>x.id===id); o.status = 'approved';
+  addHistory('قبوڵکردنی داواکاری', '#'+id);
+  addNotif(o.mandubId, `داواکاری #${id} قبوڵکرا - ئامادەیە بۆ وەرگرتن`);
+  saveDB(); closeModal(); render();
+}
+function rejectOrder(id) {
+  const note = prompt('هۆکاری ڕەتکردنەوە:');
+  const o = DB.orders.find(x=>x.id===id); o.status = 'rejected'; o.note = note || '';
+  addHistory('ڕەتکردنەوەی داواکاری', '#'+id);
+  addNotif(o.mandubId, `داواکاری #${id} ڕەتکرایەوە`);
+  saveDB(); closeModal(); render();
+}
+
+function deliverOrder(id) {
+  const o = DB.orders.find(x=>x.id===id);
+  let canDeliver = true;
+  let errorMsg = '';
+  o.items.forEach(i => {
+    const p = getProduct(i.productId);
+    if (p && p.stock < i.qty) {
+      canDeliver = false;
+      errorMsg += `${p.name}: ماوە ${p.stock} دانە، بەڵام ${i.qty} دانە داواکراوە.\n`;
+    }
+  });
+  if (!canDeliver) {
+    alert('⚠️ کۆگا نییە!\n\n' + errorMsg + '\nتکایە سەرەتا کاڵا زیاد بکە.');
+    return;
+  }
+  o.items.forEach(i => {
+    const p = getProduct(i.productId);
+    if (p) p.stock -= i.qty;
+  });
+  o.status = 'delivered';
+  DB.deliveries.push({
+    id: nextId(DB.deliveries), orderId:id, mandubId:o.mandubId, shopId:o.shopId,
+    items: JSON.parse(JSON.stringify(o.items)), date: now(), receivedByMandub:false
+  });
+  addHistory('تسلیمکردنی داواکاری', `#${id} - کەمکردنەوەی کۆگا`);
+  addNotif(o.mandubId, `کەلوپەلی داواکاری #${id} ئامادەیە - تکایە وەریبگرە`);
+  saveDB(); closeModal(); render();
+  alert('✅ داواکاری بە سەرکەوتوویی تسلیمکرا و کۆگا نوێکرایەوە!');
+}
+
+function mandubReceive(id) {
+  const d = DB.deliveries.find(x=>x.orderId===id);
+  if (d) d.receivedByMandub = true;
+  addHistory('وەرگرتنی کەلوپەل', '#'+id);
+  saveDB(); closeModal(); render();
+}
+
+function renderDeliveries() {
+  let list = DB.deliveries.slice();
+  if (currentUser.role === 'mandub') list = list.filter(d=>d.mandubId===currentUser.id);
+  let html = `<div class="panel"><div class="panel-head"><h2>تسلیمکردنەکان</h2></div>`;
+  if (!list.length) { html += '<p>هیچ تسلیمکردنێک نییە</p></div>'; return html; }
+  html += '<div class="table-wrap"><table><tr><th>#</th><th>مەندوب</th><th>دوکان</th><th>بەروار</th><th>کۆی بەها</th><th>وەرگرتن</th></tr>';
+  list.forEach(d => {
+    const m = getUser(d.mandubId);
+    const s = getShop(d.shopId);
+    const total = d.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+    html += `<tr><td>${d.id}</td><td>${m?m.name:'-'}</td><td>${s?s.name:'-'}</td><td>${d.date}</td>
+      <td>${fmt(total)}</td>
+      <td><span class="badge-status ${d.receivedByMandub?'status-active':'status-pending'}">${d.receivedByMandub?'وەرگیرا':'چاوەڕوان'}</span></td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+
+function calcMandubStats(mandubId) {
+  const dels = DB.deliveries.filter(d=>d.mandubId===mandubId);
+  let received = 0;
+  dels.forEach(d => d.items.forEach(i => received += i.price*i.qty));
+  const collected = DB.shopPayments.filter(p=>p.mandubId===mandubId).reduce((s,p)=>s+p.amount,0);
+  const paidToAdmin = DB.payments.filter(p=>p.mandubId===mandubId).reduce((s,p)=>s+p.amount,0);
+  return { received, collected, paidToAdmin, debtToAdmin: received - paidToAdmin };
+}
+function calcMandubDebt(id) { return calcMandubStats(id).debtToAdmin; }
+
+function renderMandubAccounts() {
+  const mandubs = DB.users.filter(u=>u.role==='mandub');
+  let filterHtml = `<select id="mandubFilter" onchange="filterMandubTable()" style="padding:8px;border-radius:6px;border:1px solid #ddd;margin-left:10px">
+    <option value="all">هەموو مندوبەکان</option>`;
+  mandubs.forEach(m => filterHtml += `<option value="${m.id}">${m.name}</option>`);
+  filterHtml += `</select>`;
+  let html = `<div class="panel"><div class="panel-head"><h2>حسابی وردەی مندوبەکان</h2>
+    <div>${filterHtml}</div></div>
+    <div class="table-wrap"><table id="mandubTable"><tr><th>مەندوب</th><th>کۆی وەرگیراو</th><th>پارەی دراوەتە Admin</th><th>قەرز</th><th>وردەکاری دوکانەکان</th></tr>`;
+  mandubs.forEach(m => {
+    const s = calcMandubStats(m.id);
+    html += `<tr class="mandub-row" data-id="${m.id}">
+      <td><b>${m.name}</b></td>
+      <td>${fmt(s.received)}</td>
+      <td>${fmt(s.paidToAdmin)}</td>
+      <td style="color:${s.debtToAdmin>0?'red':'green'}"><b>${fmt(s.debtToAdmin)}</b></td>
+      <td><button class="btn btn-sm btn-primary" onclick="showMandubShopDetails(${m.id})">📂 بینینی دوکانەکان</button></td>
+    </tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+
+function filterMandubTable() {
+  const val = document.getElementById('mandubFilter').value;
+  const rows = document.querySelectorAll('.mandub-row');
+  rows.forEach(row => { row.style.display = (val === 'all' || row.dataset.id === val) ? '' : 'none'; });
+}
+
+function showMandubShopDetails(mandubId) {
+  currentMandubIdForPayment = mandubId;
+  const m = getUser(mandubId);
+  const shops = DB.shops.filter(s=>s.mandubId===mandubId);
+  const mandubStats = calcMandubStats(mandubId);
+  const allDels = DB.deliveries.filter(d=>d.mandubId===mandubId);
+  const productSummary = {};
+  allDels.forEach(d => {
+    d.items.forEach(i => {
+      if (!productSummary[i.productId]) productSummary[i.productId] = { qty: 0, total: 0 };
+      productSummary[i.productId].qty += i.qty;
+      productSummary[i.productId].total += i.price * i.qty;
+    });
+  });
+  let html = '';
+  html += `<div class="shop-detail-section">
+    <h4>📊 کۆی هەموو دوکانەکان</h4>
+    <div class="stats" style="margin-bottom:0">
+      ${statCard('کۆی گشتی', fmt(mandubStats.received), '')}
+      ${statCard('پارەی دراوەتە Admin', fmt(mandubStats.paidToAdmin), 'green')}
+      ${statCard('قەرزی ماوە', fmt(mandubStats.debtToAdmin), 'red')}
+      ${statCard('ژمارەی دوکانەکان', shops.length, 'orange')}
+    </div>
+  </div>`;
+  html += `<div class="payment-form-box">
+    <h4>💵 تۆمارکردنی پارەی وەرگرتوو لە مندوب (${m.name})</h4>
+    <div class="payment-form-row">
+      <label>بڕی پارە (د.ع)<input type="number" id="payAmount" placeholder="0" min="0"></label>
+      <label>شێوازی پارەدان
+        <select id="payMethod">
+          <option value="نەقد">نەقد</option>
+          <option value="گواستنەوەی بانکی">گواستنەوەی بانکی</option>
+          <option value="ZainCash">ZainCash</option>
+          <option value="AsiaHawala">AsiaHawala</option>
+          <option value="FastPay">FastPay</option>
+        </select>
+      </label>
+      <label>تێبینی<input type="text" id="payNote" placeholder="تێبینی (ئارەزوومەندانە)"></label>
+      <button class="btn btn-success btn-lg" onclick="recordMandubPayFromModal()">✅ تۆمارکردنی پارە</button>
+    </div>
+  </div>`;
+  html += `<div class="shop-detail-section">
+    <h4>📦 کۆی هەموو کاڵاکان (لە هەموو دوکانەکان)</h4>`;
+  const prodKeys = Object.keys(productSummary);
+  if (prodKeys.length === 0) html += '<p style="color:#64748b">هیچ کاڵایەک نەنێردراوە</p>';
+  else {
+    html += `<table class="summary-table"><tr><th>وێنە</th><th>ناوی کاڵا</th><th>کۆی ژمارە</th><th>کۆی بەها</th></tr>`;
+    prodKeys.forEach(pid => {
+      const p = getProduct(+pid);
+      const sum = productSummary[pid];
+      const img = p && p.image ? `<img src="${p.image}">` : '';
+      html += `<tr><td>${img}</td><td>${p?p.name:'Unknown'}</td><td><b>${sum.qty}</b> دانە</td><td><b>${fmt(sum.total)}</b></td></tr>`;
+    });
+    html += '</table>';
+  }
+  html += '</div>';
+  html += `<div class="shop-detail-section">
+    <h4>🏪 وردەکاری هەر دوکانێک (بە بەروار و ژمارە)</h4>`;
+  if (shops.length === 0) html += '<p style="color:#64748b">هیچ دوکانێکی نییە</p>';
+  else {
+    shops.forEach(s => {
+      const st = calcShopStats(s.id);
+      const shopDels = DB.deliveries.filter(d=>d.shopId===s.id);
+      html += `<div class="shop-card">
+        <div class="shop-card-header">
+          <div><div class="shop-card-title">🏪 ${s.name}</div><div class="shop-card-sub">${s.owner||''} - ${s.phone||''} | ${s.city||''}</div></div>
+          <div class="shop-card-stats"><div class="shop-card-total">کۆی: ${fmt(st.bought)}</div><div class="shop-card-debt ${st.debt<=0?'paid':''}">قەرز: ${fmt(st.debt)}</div></div>
+        </div>`;
+      if (shopDels.length === 0) html += '<p style="color:#94a3b8;font-size:13px">هیچ کاڵایەک بۆ ئەم دوکانە نەنێردراوە</p>';
+      else {
+        shopDels.forEach(d => {
+          html += `<div class="delivery-item"><div class="delivery-date">بەرواری ڕیژن: <b>${d.date}</b></div>`;
+          d.items.forEach(i => {
+            const p = getProduct(i.productId);
+            const img = p && p.image ? `<img src="${p.image}">` : '';
+            html += `<div class="product-row">${img}<span class="product-row-name">${p?p.name:'Unknown'}</span><span class="product-row-qty">${i.qty} دانە</span><span class="product-row-price">${fmt(i.price)}</span><span class="product-row-total">${fmt(i.price*i.qty)}</span></div>`;
+          });
+          html += '</div>';
+        });
+      }
+      html += '</div>';
+    });
+  }
+  html += '</div>';
+  const mandubPayments = DB.payments.filter(p=>p.mandubId===mandubId);
+  html += `<div class="shop-detail-section">
+    <h4>💰 مێژووی پارەدان بە Admin</h4>`;
+  if (mandubPayments.length === 0) html += '<p style="color:#64748b">هیچ پارەدانێک تۆمار نەکراوە</p>';
+  else {
+    html += `<table class="summary-table"><tr><th>بەروار</th><th>بڕ</th><th>شێواز</th><th>تێبینی</th><th>تۆمارکەر</th></tr>`;
+    mandubPayments.slice().reverse().forEach(p => {
+      const payer = getUser(p.by);
+      html += `<tr><td>${p.date}</td><td><b>${fmt(p.amount)}</b></td><td>${p.method||'نەقد'}</td><td>${p.note||'-'}</td><td>${payer?payer.name:'-'}</td></tr>`;
+    });
+    html += '</table>';
+  }
+  html += '</div>';
+  openModal(`وردەکاری دوکانەکانی: ${m.name}`, html + `<div class="form-actions"><button class="btn btn-danger" onclick="closeModal()">داخستن</button></div>`);
+}
+
+function recordMandubPayFromModal() {
+  const amount = +document.getElementById('payAmount').value;
+  const method = document.getElementById('payMethod').value;
+  const note = document.getElementById('payNote').value.trim();
+  if (!amount || amount <= 0) { alert('تکایە بڕی پارە بنووسە'); return; }
+  const mandub = getUser(currentMandubIdForPayment);
+  if (!mandub) { alert('هەڵە: مندوب نەدۆزرایەوە'); return; }
+  DB.payments.push({ id: nextId(DB.payments), mandubId: currentMandubIdForPayment, amount, date: now(), note: note, method: method, by: currentUser.id });
+  addHistory('پارە وەرگرتن لە مندوب', `${mandub.name} - ${fmt(amount)} (${method})`);
+  saveDB();
+  showMandubShopDetails(currentMandubIdForPayment);
+  alert(`✅ پارە بە سەرکەوتوویی تۆمارکرا!\n\nبڕ: ${fmt(amount)}\nشێواز: ${method}\nقەرزی ماوە: ${fmt(calcMandubStats(currentMandubIdForPayment).debtToAdmin)}`);
+}
+
+function calcShopStats(shopId) {
+  const dels = DB.deliveries.filter(d=>d.shopId===shopId);
+  let bought = 0;
+  dels.forEach(d => d.items.forEach(i => bought += i.price*i.qty));
+  const paid = DB.shopPayments.filter(p=>p.shopId===shopId).reduce((s,p)=>s+p.amount,0);
+  return { bought, paid, debt: bought - paid };
+}
+function calcTotalDebt() { return DB.shops.reduce((s,sh)=>s+calcShopStats(sh.id).debt,0); }
+
+function renderShopAccounts() {
+  let html = `<div class="panel"><div class="panel-head"><h2>حسابی دوکانەکان</h2></div>
+    <div class="table-wrap"><table><tr><th>دوکان</th><th>مەندوب</th><th>کۆی کڕین</th><th>پارەی دراو</th><th>قەرز</th><th>کردار</th></tr>`;
+  DB.shops.forEach(s => {
+    const m = getUser(s.mandubId);
+    const st = calcShopStats(s.id);
+    html += `<tr><td>${s.name}</td><td>${m?m.name:'-'}</td><td>${fmt(st.bought)}</td><td>${fmt(st.paid)}</td><td>${fmt(st.debt)}</td>
+      <td><button class="btn btn-sm btn-primary" onclick="shopDetail(${s.id})">وردەکاری</button>
+      <button class="btn btn-sm btn-success" onclick="recordShopPayFor(${s.id})">تۆمارکردنی پارە</button></td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+function shopDetail(id) {
+  const s = getShop(id);
+  const st = calcShopStats(id);
+  const pays = DB.shopPayments.filter(p=>p.shopId===id);
+  const shopDels = DB.deliveries.filter(d=>d.shopId===id);
+  let delHtml = '';
+  shopDels.forEach(d => {
+    delHtml += `<div class="delivery-item" style="margin-top:10px"><div class="delivery-date">بەرواری ڕیژن: <b>${d.date}</b></div>`;
+    d.items.forEach(i => {
+      const p = getProduct(i.productId);
+      const img = p && p.image ? `<img src="${p.image}" style="width:30px;height:30px;border-radius:4px;object-fit:cover;vertical-align:middle;margin-left:5px">` : '';
+      delHtml += `<div class="product-row">${img}<span class="product-row-name">${p?p.name:'Unknown'}</span><span class="product-row-qty">${i.qty} دانە</span><span class="product-row-price">${fmt(i.price)}</span><span class="product-row-total">${fmt(i.price*i.qty)}</span></div>`;
+    });
+    delHtml += '</div>';
+  });
+  let payHtml = '<table><tr><th>بەروار</th><th>بڕ</th><th>تێبینی</th></tr>';
+  pays.forEach(p => payHtml += `<tr><td>${p.date}</td><td>${fmt(p.amount)}</td><td>${p.note||''}</td></tr>`);
+  payHtml += '</table>';
+  openModal(`حسابی ${s.name}`, `
+    <div class="stats" style="margin-bottom:15px">
+      ${statCard('کۆی کڕین', fmt(st.bought), '')}
+      ${statCard('پارەی دراو', fmt(st.paid), 'green')}
+      ${statCard('قەرز', fmt(st.debt), 'red')}
+    </div>
+    <h4 style="margin:15px 0 10px">📦 کاڵاکانی نێردراو</h4>
+    ${delHtml || '<p>هیچ کاڵایەک نەنێردراوە</p>'}
+    <h4 style="margin:15px 0 10px">💰 مێژووی پارەدان</h4>
+    ${pays.length ? payHtml : '<p>هیچ پارەدانێک نییە</p>'}
+    <div class="form-actions"><button class="btn btn-danger" onclick="closeModal()">داخستن</button></div>`);
+}
+function recordShopPayFor(shopId) {
+  const amount = +prompt('بڕی پارە (د.ع):');
+  if (!amount || amount<=0) return;
+  const note = prompt('تێبینی:') || '';
+  const shop = getShop(shopId);
+  DB.shopPayments.push({ id:nextId(DB.shopPayments), shopId, mandubId:shop.mandubId, amount, date:now(), note });
+  addHistory('پارە وەرگرتن لە دوکان', shop.name + ' - ' + fmt(amount));
+  saveDB(); render();
+}
+
+function renderReports() {
+  const totalSales = DB.deliveries.reduce((s,d)=>s+d.items.reduce((a,i)=>a+i.price*i.qty,0),0);
+  const totalStock = DB.products.reduce((s,p)=>s+p.stock,0);
+  const stockValue = DB.products.reduce((s,p)=>s+p.stock*p.buyPrice,0);
+  const totalDebt = calcTotalDebt();
+  let html = `<div class="stats">
+    ${statCard('کۆی فرۆشتن', fmt(totalSales), 'green')}
+    ${statCard('بەهای کۆگا', fmt(stockValue), '')}
+    ${statCard('کۆی دانە', totalStock, 'orange')}
+    ${statCard('کۆی قەرز', fmt(totalDebt), 'red')}
+  </div>`;
+  html += `<div class="panel"><div class="panel-head"><h2>ڕاپۆرتی ڕۆژانە / مانگانە</h2></div>
+    <p>کۆی داواکارییەکان: ${DB.orders.length}</p>
+    <p>داواکاری چاوەڕوان: ${DB.orders.filter(o=>o.status==='pending').length}</p>
+    <p>داواکاری قبوڵکراو: ${DB.orders.filter(o=>o.status==='approved').length}</p>
+    <p>داواکاری تسلیمکراو: ${DB.orders.filter(o=>o.status==='delivered').length}</p>
+    <p>داواکاری ڕەتکراو: ${DB.orders.filter(o=>o.status==='rejected').length}</p>
+  </div>`;
+  return html;
+}
+
+function renderHistory() {
+  let html = `<div class="panel"><div class="panel-head"><h2>مێژووی هەموو مامەڵەکان</h2></div>`;
+  if (!DB.history.length) { html += '<p>هیچ مێژوویەک نییە</p></div>'; return html; }
+  html += '<div class="table-wrap"><table><tr><th>بەروار</th><th>بەکارهێنەر</th><th>ڕۆڵ</th><th>جۆر</th><th>وردەکاری</th></tr>';
+  DB.history.slice().reverse().forEach(h => {
+    html += `<tr><td>${h.date}</td><td>${h.user}</td><td>${h.role}</td><td>${h.type}</td><td>${h.details}</td></tr>`;
+  });
+  html += '</table></div></div>';
+  return html;
+}
+
+function renderMyShops() {
+  const myShops = DB.shops.filter(s=>s.mandubId===currentUser.id);
+  let html = `<div class="panel"><div class="panel-head"><h2>دوکانەکانم</h2>
+    <button class="btn btn-primary" onclick="shopForm()">+ زیادکردنی دوکان</button></div>`;
+  if (!myShops.length) html += '<p>هیچ دوکانێکت تۆمار نەکردووە</p>';
+  else {
+    html += '<div class="table-wrap"><table><tr><th>ناو</th><th>خاوەن</th><th>مۆبایل</th><th>شار</th><th>کۆد</th></tr>';
+    myShops.forEach(s => { html += `<tr><td>${s.name}</td><td>${s.owner||''}</td><td>${s.phone||''}</td><td>${s.city||''}</td><td>${s.code||''}</td></tr>`; });
+    html += '</table></div>';
+  }
+  html += '</div>';
+  return html;
+}
+function shopForm() {
+  openModal('تۆمارکردنی دوکان', `
+    <div class="form-grid">
+      <label>ناوی دوکان<input id="f_name"></label>
+      <label>ناوی خاوەن<input id="f_owner"></label>
+      <label>ژمارەی مۆبایل<input id="f_phone"></label>
+      <label>شار / ناوچە<input id="f_city"></label>
+      <label>ناونیشان<input id="f_addr"></label>
+      <label>کۆدی دوکان<input id="f_code"></label>
+    </div>
+    <label style="display:block;margin-top:10px">تێبینی<textarea id="f_notes" rows="2"></textarea></label>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveShop()">پاشەکەوتکردن</button>
+      <button class="btn btn-danger" onclick="closeModal()">پاشگەزبوونەوە</button>
+    </div>`);
+}
+function saveShop() {
+  const data = {
+    name: document.getElementById('f_name').value.trim(),
+    owner: document.getElementById('f_owner').value.trim(),
+    phone: document.getElementById('f_phone').value.trim(),
+    city: document.getElementById('f_city').value.trim(),
+    address: document.getElementById('f_addr').value.trim(),
+    code: document.getElementById('f_code').value.trim(),
+    notes: document.getElementById('f_notes').value.trim(),
+    mandubId: currentUser.id
+  };
+  if (!data.name) { alert('ناوی دوکان پێویستە'); return; }
+  DB.shops.push({ id:nextId(DB.shops), ...data });
+  addHistory('تۆمارکردنی دوکان', data.name);
+  DB.users.filter(u=>u.role==='admin').forEach(a => addNotif(a.id, `${currentUser.name} دوکانی "${data.name}" ی تۆمارکرد`));
+  saveDB(); closeModal(); render();
+}
+
+let orderQuantities = {}; 
+function renderNewOrder() {
+  const myShops = DB.shops.filter(s=>s.mandubId===currentUser.id);
+  if (!myShops.length) return '<div class="panel"><p>سەرەتا دوکانێک تۆمار بکە</p></div>';
+  let html = `<div class="panel"><div class="panel-head"><h2>داواکاری نوێ</h2></div>
+    <label style="font-weight:bold;font-size:16px">. هەڵبژاردنی دوکان:</label>
+    <select id="orderShop" onchange="updateOrderProducts()" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ddd;border-radius:6px;font-size:15px">
+      <option value="">-- دوکانێک هەڵبژێرە --</option>`;
+  myShops.forEach(s => html += `<option value="${s.id}">${s.name} (${s.city||''})</option>`);
+  html += `</select>
+    <div id="orderSection" class="hidden">
+      <hr style="margin:20px 0;border-color:#e2e8f0">
+      <label style="font-weight:bold;font-size:16px">٢. هەڵبژاردنی کاڵاکان:</label>
+      <div id="orderItems" class="product-grid"></div>
+      <hr style="margin:20px 0;border-color:#e2e8f0">
+      <label style="font-weight:bold;font-size:16px">٣. پێشبینینی داواکاری:</label>
+      <div id="orderPreview" class="preview-box"><p style="color:#64748b">هیچ کاڵایەک هەڵنەبژێردراوە</p></div>
+      <label style="display:block;margin-top:15px;font-weight:bold">تێبینی بۆ Admin:</label>
+      <textarea id="orderNote" rows="2" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;margin-top:5px"></textarea>
+      <div class="form-actions" style="margin-top:20px">
+        <button class="btn btn-primary" style="width:100%;padding:12px;font-size:16px" onclick="submitOrder()">🚀 ناردنی داواکاری</button>
+      </div>
+    </div></div>`;
+  return html;
+}
+function updateOrderProducts() {
+  const shopId = +document.getElementById('orderShop').value;
+  const section = document.getElementById('orderSection');
+  const box = document.getElementById('orderItems');
+  if (!shopId) { section.classList.add('hidden'); return; }
+  section.classList.remove('hidden');
+  orderQuantities = {}; 
+  if (!DB.products.length) { box.innerHTML = '<p>هیچ کاڵایەک لە کۆگا نییە</p>'; return; }
+  let html = '';
+  DB.products.forEach(p => {
+    const imgSrc = p.image || 'https://via.placeholder.com/150?text=No+Image';
+    html += `<div class="product-card">
+        <img src="${imgSrc}" class="product-img" alt="${p.name}">
+        <div class="product-info"><div class="product-name">${p.name}</div><div class="product-price">${fmt(p.sellPrice)}</div><div class="product-stock">ماوە: ${p.stock} دانە</div></div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(${p.id}, -1, ${p.stock})" ${p.stock===0?'disabled':''}>-</button>
+          <span class="qty-val" id="qty-${p.id}">0</span>
+          <button class="qty-btn" onclick="changeQty(${p.id}, 1, ${p.stock})" ${p.stock===0?'disabled':''}>+</button>
+        </div>
+      </div>`;
+  });
+  box.innerHTML = html;
+  updatePreview();
+}
+function changeQty(pid, delta, maxStock) {
+  const current = orderQuantities[pid] || 0;
+  let newVal = current + delta;
+  if (newVal < 0) newVal = 0;
+  if (newVal > maxStock) newVal = maxStock;
+  orderQuantities[pid] = newVal;
+  document.getElementById(`qty-${pid}`).innerText = newVal;
+  updatePreview();
+}
+function updatePreview() {
+  const preview = document.getElementById('orderPreview');
+  let total = 0;
+  let itemsHtml = '<table style="width:100%"><tr><th>کاڵا</th><th>ژمارە</th><th>نرخ</th><th>کۆ</th></tr>';
+  let hasItems = false;
+  for (const [pid, qty] of Object.entries(orderQuantities)) {
+    if (qty > 0) {
+      hasItems = true;
+      const p = getProduct(+pid);
+      if (p) { const lineTotal = p.sellPrice * qty; total += lineTotal; itemsHtml += `<tr><td>${p.name}</td><td>${qty}</td><td>${fmt(p.sellPrice)}</td><td>${fmt(lineTotal)}</td></tr>`; }
+    }
+  }
+  itemsHtml += '</table>';
+  if (hasItems) preview.innerHTML = `${itemsHtml}<div style="margin-top:10px;padding-top:10px;border-top:2px solid #667eea;text-align:left;font-weight:bold;font-size:18px;color:#1e293b">کۆی گشتی: ${fmt(total)}</div>`;
+  else preview.innerHTML = '<p style="color:#64748b">هیچ کاڵایەک هەڵنەبژێردراوە</p>';
+}
+function submitOrder() {
+  const shopId = +document.getElementById('orderShop').value;
+  if (!shopId) { alert('دوکان هەڵبژێرە'); return; }
+  const items = [];
+  for (const [pid, qty] of Object.entries(orderQuantities)) {
+    if (qty > 0) { const p = getProduct(+pid); if (p) items.push({ productId:+pid, qty, price:p.sellPrice }); }
+  }
+  if (!items.length) { alert('هیچ کاڵایەک هەڵنەبژێردراوە'); return; }
+  const note = document.getElementById('orderNote').value;
+  const order = { id: nextId(DB.orders), mandubId: currentUser.id, shopId, items, note, status:'pending', date: now() };
+  DB.orders.push(order);
+  addHistory('ناردنی داواکاری', '#'+order.id);
+  DB.users.filter(u=>u.role==='admin').forEach(a => addNotif(a.id, `داواکاری نوێ #${order.id} لە ${currentUser.name}`));
+  saveDB();
+  alert('داواکاری بە سەرکەوتوویی نێردرا بۆ Admin ✅');
+  go('myOrders');
+}
+
+function renderMyOrders() { return renderOrders(); }
+function renderMyDeliveries() { return renderDeliveries(); }
+
+function renderMyShopAccounts() {
+  const myShops = DB.shops.filter(s=>s.mandubId===currentUser.id);
+  let html = `<div class="panel"><div class="panel-head"><h2>حسابی دوکانەکانم</h2></div>`;
+  if (!myShops.length) html += '<p>هیچ دوکانێکت نییە</p>';
+  else {
+    html += '<div class="table-wrap"><table><tr><th>دوکان</th><th>کۆی کڕین</th><th>پارەی دراو</th><th>قەرز</th></tr>';
+    myShops.forEach(s => { const st = calcShopStats(s.id); html += `<tr><td>${s.name}</td><td>${fmt(st.bought)}</td><td>${fmt(st.paid)}</td><td>${fmt(st.debt)}</td></tr>`; });
+    html += '</table></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderRecordShopPay() {
+  const myShops = DB.shops.filter(s=>s.mandubId===currentUser.id);
+  if (!myShops.length) return '<div class="panel"><p>سەرەتا دوکانێک تۆمار بکە</p></div>';
+  let html = `<div class="panel"><div class="panel-head"><h2>تۆمارکردنی پارەی وەرگیراو لە دوکان</h2></div>
+    <div class="form-grid">
+      <label>دوکان<select id="p_shop">`;
+  myShops.forEach(s => html += `<option value="${s.id}">${s.name}</option>`);
+  html += `</select></label>
+      <label>بڕی پارە (د.ع)<input type="number" id="p_amount"></label>
+    </div>
+    <label style="display:block;margin-top:10px">تێبینی<textarea id="p_note" rows="2"></textarea></label>
+    <div class="form-actions"><button class="btn btn-primary" onclick="saveShopPay()">تۆمارکردن</button></div></div>`;
+  return html;
+}
+function saveShopPay() {
+  const shopId = +document.getElementById('p_shop').value;
+  const amount = +document.getElementById('p_amount').value;
+  const note = document.getElementById('p_note').value;
+  if (!amount || amount<=0) { alert('بڕی پارە بنووسە'); return; }
+  DB.shopPayments.push({ id:nextId(DB.shopPayments), shopId, mandubId:currentUser.id, amount, date:now(), note });
+  addHistory('تۆمارکردنی پارەی دوکان', getShop(shopId).name + ' - ' + fmt(amount));
+  saveDB(); alert('تۆمارکرا'); go('myShopAccounts');
+}
+
+function renderMyAccount() {
+  const mid = currentUser.id;
+  const stats = calcMandubStats(mid);
+  const myOrders = DB.orders.filter(o=>o.mandubId===mid);
+  const pendingOrders = myOrders.filter(o=>o.status==='pending');
+  const approvedOrders = myOrders.filter(o=>o.status==='approved');
+  const deliveredOrders = myOrders.filter(o=>o.status==='delivered');
+  const rejectedOrders = myOrders.filter(o=>o.status==='rejected');
+  const myDeliveries = DB.deliveries.filter(d=>d.mandubId===mid);
+  const productSummary = {};
+  myDeliveries.forEach(d => {
+    d.items.forEach(i => {
+      if (!productSummary[i.productId]) productSummary[i.productId] = { qty: 0, total: 0 };
+      productSummary[i.productId].qty += i.qty;
+      productSummary[i.productId].total += i.price * i.qty;
+    });
+  });
+  let html = `<div class="panel">
+    <div class="panel-head"><h2>💳 حسابی من - ${currentUser.name}</h2></div>
+    <div class="stats">
+      ${statCard('کەلوپەلی وەرگیراو', fmt(stats.received), '')}
+      ${statCard('پارەی وەرگرتووم لە دوکان', fmt(stats.collected), 'green')}
+      ${statCard('پارەی داومەتە Admin', fmt(stats.paidToAdmin), 'orange')}
+      ${statCard('قەرزم بۆ Admin', fmt(stats.debtToAdmin), 'red')}
+    </div>
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchTab('tabPending')">⏳ چاوەڕوان (${pendingOrders.length})</button>
+        <button class="tab-btn" onclick="switchTab('tabApproved')">✅ قبوڵکراو (${approvedOrders.length})</button>
+        <button class="tab-btn" onclick="switchTab('tabDelivered')"> تسلیمکراو (${deliveredOrders.length})</button>
+        <button class="tab-btn" onclick="switchTab('tabRejected')">❌ ڕەتکراوە (${rejectedOrders.length})</button>
+        <button class="tab-btn" onclick="switchTab('tabProducts')">📦 کۆی کاڵاکان</button>
+        <button class="tab-btn" onclick="switchTab('tabPayments')">💰 مێژووی پارەدان</button>
+      </div>
+      <div id="tabPending" class="tab-content active">
+        <h4 style="margin-bottom:10px"> داواکارییە چاوەڕوانەکان (بۆ قبوڵکردنی Admin)</h4>`;
+  if (pendingOrders.length === 0) html += '<p style="color:#64748b">هیچ داواکارییەکی چاوەڕوان نییە</p>';
+  else {
+    html += '<div class="table-wrap"><table><tr><th>#</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>کردار</th></tr>';
+    pendingOrders.forEach(o => {
+      const s = getShop(o.shopId);
+      const total = o.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+      html += `<tr><td>${o.id}</td><td>${s?s.name:'-'}</td><td>${o.date}</td><td>${fmt(total)}</td><td><button class="btn btn-sm btn-primary" onclick="viewOrder(${o.id})">بینین</button></td></tr>`;
+    });
+    html += '</table></div>';
+  }
+  html += `</div><div id="tabApproved" class="tab-content">
+        <h4 style="margin-bottom:10px">✅ داواکارییە قبوڵکراوەکان (ئامادەن بۆ وەرگرتن)</h4>`;
+  if (approvedOrders.length === 0) html += '<p style="color:#64748b">هیچ داواکارییەکی قبوڵکراو نییە</p>';
+  else {
+    html += '<div class="table-wrap"><table><tr><th>#</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>کردار</th></tr>';
+    approvedOrders.forEach(o => {
+      const s = getShop(o.shopId);
+      const total = o.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+      html += `<tr><td>${o.id}</td><td>${s?s.name:'-'}</td><td>${o.date}</td><td>${fmt(total)}</td><td><button class="btn btn-sm btn-success" onclick="mandubReceive(${o.id});renderMyAccount();">✅ وەرگرتن</button><button class="btn btn-sm btn-primary" onclick="viewOrder(${o.id})">بینین</button></td></tr>`;
+    });
+    html += '</table></div>';
+  }
+  html += `</div><div id="tabDelivered" class="tab-content">
+        <h4 style="margin-bottom:10px">📦 داواکارییە تسلیمکراوەکان</h4>`;
+  if (deliveredOrders.length === 0) html += '<p style="color:#64748b">هیچ داواکارییەکی تسلیمکراو نییە</p>';
+  else {
+    html += '<div class="table-wrap"><table><tr><th>#</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>وەرگرتن</th><th>کردار</th></tr>';
+    deliveredOrders.forEach(o => {
+      const s = getShop(o.shopId);
+      const total = o.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+      const d = DB.deliveries.find(x=>x.orderId===o.id);
+      const received = d && d.receivedByMandub;
+      html += `<tr><td>${o.id}</td><td>${s?s.name:'-'}</td><td>${o.date}</td><td>${fmt(total)}</td><td><span class="badge-status ${received?'status-active':'status-pending'}">${received?'وەرگیرا':'چاوەڕوان'}</span></td><td><button class="btn btn-sm btn-primary" onclick="viewOrder(${o.id})">بینین</button></td></tr>`;
+    });
+    html += '</table></div>';
+  }
+  html += `</div><div id="tabRejected" class="tab-content">
+        <h4 style="margin-bottom:10px">❌ داواکارییە ڕەتکراوەکان</h4>`;
+  if (rejectedOrders.length === 0) html += '<p style="color:#64748b">هیچ داواکارییەکی ڕەتکراو نییە</p>';
+  else {
+    html += '<div class="table-wrap"><table><tr><th>#</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>هۆکار</th></tr>';
+    rejectedOrders.forEach(o => {
+      const s = getShop(o.shopId);
+      const total = o.items.reduce((sum,i)=>sum+i.price*i.qty,0);
+      html += `<tr><td>${o.id}</td><td>${s?s.name:'-'}</td><td>${o.date}</td><td>${fmt(total)}</td><td>${o.note||'-'}</td></tr>`;
+    });
+    html += '</table></div>';
+  }
+  html += `</div><div id="tabProducts" class="tab-content">
+        <h4 style="margin-bottom:10px">📦 کۆی هەموو کاڵاکان (لە هەموو دوکانەکانم)</h4>`;
+  const prodKeys = Object.keys(productSummary);
+  if (prodKeys.length === 0) html += '<p style="color:#64748b">هیچ کاڵایەک وەرنەگیراوە</p>';
+  else {
+    html += `<table class="summary-table"><tr><th>وێنە</th><th>ناوی کاڵا</th><th>کۆی ژمارە</th><th>کۆی بەها</th></tr>`;
+    prodKeys.forEach(pid => {
+      const p = getProduct(+pid);
+      const sum = productSummary[pid];
+      const img = p && p.image ? `<img src="${p.image}">` : '';
+      html += `<tr><td>${img}</td><td>${p?p.name:'Unknown'}</td><td><b>${sum.qty}</b> دانە</td><td><b>${fmt(sum.total)}</b></td></tr>`;
+    });
+    html += '</table>';
+  }
+  html += `</div><div id="tabPayments" class="tab-content">
+        <h4 style="margin-bottom:10px">💰 مێژووی پارەدان بە Admin</h4>`;
+  const myPayments = DB.payments.filter(p=>p.mandubId===mid);
+  if (myPayments.length === 0) html += '<p style="color:#64748b">هیچ پارەدانێک تۆمار نەکراوە</p>';
+  else {
+    html += `<table class="summary-table"><tr><th>بەروار</th><th>بڕ</th><th>شێواز</th><th>تێبینی</th><th>تۆمارکەر</th></tr>`;
+    myPayments.slice().reverse().forEach(p => {
+      const payer = getUser(p.by);
+      html += `<tr><td>${p.date}</td><td><b>${fmt(p.amount)}</b></td><td>${p.method||'نەقد'}</td><td>${p.note||'-'}</td><td>${payer?payer.name:'-'}</td></tr>`;
+    });
+    html += '</table>';
+  }
+  html += `</div></div></div>`;
+  return html;
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function openModal(title, body) {
+  document.getElementById('modalContainer').innerHTML = `<div class="modal" onclick="if(event.target===this)closeModal()"><div class="modal-box"><h3>${title}</h3>${body}</div></div>`;
+}
+function closeModal() { document.getElementById('modalContainer').innerHTML = ''; }
+
+function toggleNotif() {
+  const p = document.getElementById('notifPanel');
+  p.classList.toggle('hidden');
+  if (!p.classList.contains('hidden')) {
+    const my = DB.notifications.filter(n=>n.userId===currentUser.id).slice().reverse();
+    if (!my.length) p.innerHTML = '<div class="notif-item">هیچ ئاگاداریەک نییە</div>';
+    else p.innerHTML = my.map(n => `<div class="notif-item"><b>${n.date}</b><br>${n.message}</div>`).join('');
+    DB.notifications.filter(n=>n.userId===currentUser.id).forEach(n=>n.read=true);
+    saveDB(); updateNotifBadge();
+  }
+}
+function updateNotifBadge() {
+  const count = DB.notifications.filter(n=>n.userId===currentUser.id && !n.read).length;
+  document.getElementById('notifBadge').innerText = count;
+}
+</script>
+</body>
+</html>
