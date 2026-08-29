@@ -171,7 +171,6 @@ tr:hover { background:#f8fafc; }
 .payment-form-row label { flex:1; min-width:120px; }
 .payment-form-row input, .payment-form-row select { width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:14px; }
 
-/* ===== DELIVERY MODAL STYLES ===== */
 .delivery-modal-body { padding: 10px 0; }
 .delivery-info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; margin-bottom: 15px; }
 .delivery-info-box h4 { color: #334155; margin-bottom: 10px; border-bottom: 2px solid #667eea; padding-bottom: 5px; }
@@ -201,7 +200,6 @@ tr:hover { background:#f8fafc; }
 .delivery-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
 .delivery-actions .btn { flex: 1; min-width: 150px; padding: 14px; font-size: 16px; }
 
-/* ===== PRINT INVOICE STYLES ===== */
 .print-invoice { display: none; }
 
 @media print {
@@ -218,28 +216,23 @@ tr:hover { background:#f8fafc; }
     background: #fff;
     font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
   }
-  
   .print-header { text-align: center; border-bottom: 3px solid #1e293b; padding-bottom: 15px; margin-bottom: 20px; }
   .print-header h1 { font-size: 28px; color: #1e293b; margin-bottom: 5px; }
   .print-header h2 { font-size: 18px; color: #667eea; margin-bottom: 10px; }
   .print-header .print-date { font-size: 14px; color: #64748b; }
-  
   .print-section { margin-bottom: 20px; }
   .print-section h3 { background: #1e293b; color: #fff; padding: 10px 15px; border-radius: 6px; font-size: 16px; margin-bottom: 10px; }
-  
   .print-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
   .print-info-box { background: #f8fafc; padding: 12px; border-radius: 8px; border-right: 4px solid #667eea; }
   .print-info-box h4 { font-size: 13px; color: #64748b; margin-bottom: 8px; }
   .print-info-box p { font-size: 14px; margin: 3px 0; color: #1e293b; }
   .print-info-box p strong { color: #1e293b; }
-  
   .print-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
   .print-table th { background: #667eea; color: #fff; padding: 10px; text-align: right; font-size: 13px; }
   .print-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
   .print-table tr:nth-child(even) { background: #f8fafc; }
   .print-table .total-row { background: #1e293b !important; color: #fff; font-weight: bold; font-size: 15px; }
   .print-table .total-row td { padding: 12px 10px; border: none; }
-  
   .print-balance { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0; }
   .print-balance .pb-item { padding: 15px; border-radius: 8px; text-align: center; border: 2px solid; }
   .print-balance .pb-item.total { border-color: #3b82f6; background: #eff6ff; }
@@ -250,12 +243,10 @@ tr:hover { background:#f8fafc; }
   .print-balance .pb-item.total .pb-value { color: #1e40af; }
   .print-balance .pb-item.prepaid .pb-value { color: #065f46; }
   .print-balance .pb-item.remaining .pb-value { color: #991b1b; }
-  
   .print-signatures { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 40px; padding-top: 20px; border-top: 2px dashed #cbd5e1; }
   .print-signatures .sig-box { text-align: center; }
   .print-signatures .sig-box .sig-label { font-size: 13px; color: #64748b; margin-bottom: 30px; }
   .print-signatures .sig-box .sig-line { border-top: 2px solid #1e293b; padding-top: 5px; font-size: 12px; color: #94a3b8; }
-  
   .print-footer { text-align: center; margin-top: 30px; padding-top: 15px; border-top: 2px solid #1e293b; font-size: 12px; color: #64748b; }
 }
 
@@ -288,7 +279,7 @@ tr:hover { background:#f8fafc; }
 
 <div id="loginPage" class="login-wrap">
   <div class="login-box">
-    <h2>🔐 چوونەژوورەوە</h2>
+    <h2> چوونەژوورەوە</h2>
     <input type="text" id="loginUser" placeholder="Username">
     <input type="password" id="loginPass" placeholder="Password">
     <button onclick="doLogin()">چوونەژوورەوە</button>
@@ -314,12 +305,10 @@ tr:hover { background:#f8fafc; }
 
 <div id="modalContainer"></div>
 <div id="lightboxContainer"></div>
-
-<!-- ===== PRINT INVOICE CONTAINER (Hidden until print) ===== -->
 <div id="printInvoiceContainer" class="print-invoice"></div>
 
 <script>
-const DB_KEY = 'mobile_system_db_final_v14';
+const DB_KEY = 'mobile_system_db_final_v15';
 
 function defaultDB() {
   return {
@@ -397,33 +386,35 @@ function buildSidebar() {
   menu += `<a onclick="go('dashboard')" class="active" id="nav-dashboard">🏠 داشبۆرد</a>`;
 
   if (currentUser.role === 'superadmin') {
-    menu += `<a onclick="go('admins')" id="nav-admins">👨‍💼 بەڕێوەبردنی Admin</a>`;
+    menu += `<a onclick="go('admins')" id="nav-admins">‍💼 بەڕێوەبردنی Admin</a>`;
     menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑‍💼 مندوبەکان</a>`;
-    menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
+    menu += `<a onclick="go('shops')" id="nav-shops"> دوکانەکان</a>`;
     menu += `<a onclick="go('products')" id="nav-products">📦 کەلوپەلەکان</a>`;
-    menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
+    menu += `<a onclick="go('orders')" id="nav-orders"> داواکارییەکان</a>`;
     menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردنەکان</a>`;
     menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوبەکان</a>`;
     menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکانەکان</a>`;
+    menu += `<a onclick="go('profits')" id="nav-profits">💰 قازانج</a>`;
     menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرتی گشتی</a>`;
-    menu += `<a onclick="go('history')" id="nav-history">📜 مێژوو</a>`;
+    menu += `<a onclick="go('history')" id="nav-history"> مێژوو</a>`;
   } else if (currentUser.role === 'admin') {
-    menu += `<a onclick="go('mandubs')" id="nav-mandubs">‍💼 بەڕێوەبردنی مندوب</a>`;
+    menu += `<a onclick="go('mandubs')" id="nav-mandubs">🧑‍💼 بەڕێوەبردنی مندوب</a>`;
     menu += `<a onclick="go('shops')" id="nav-shops">🏪 دوکانەکان</a>`;
     menu += `<a onclick="go('products')" id="nav-products">📦 کۆگا / کەلوپەل</a>`;
-    menu += `<a onclick="go('orders')" id="nav-orders">📝 داواکارییەکان</a>`;
-    menu += `<a onclick="go('deliveries')" id="nav-deliveries"> تسلیمکردن</a>`;
+    menu += `<a onclick="go('orders')" id="nav-orders"> داواکارییەکان</a>`;
+    menu += `<a onclick="go('deliveries')" id="nav-deliveries">🤝 تسلیمکردن</a>`;
     menu += `<a onclick="go('mandubAccounts')" id="nav-mandubAccounts">💳 حسابی مندوب</a>`;
     menu += `<a onclick="go('shopAccounts')" id="nav-shopAccounts">💰 حسابی دوکان</a>`;
+    menu += `<a onclick="go('profits')" id="nav-profits">💰 قازانج</a>`;
     menu += `<a onclick="go('reports')" id="nav-reports">📊 ڕاپۆرت</a>`;
   } else if (currentUser.role === 'mandub') {
     menu += `<a onclick="go('myShops')" id="nav-myShops">🏪 دوکانەکانم</a>`;
     menu += `<a onclick="go('newOrder')" id="nav-newOrder">📝 داواکاری نوێ</a>`;
     menu += `<a onclick="go('myOrders')" id="nav-myOrders">📋 داواکارییەکانم</a>`;
-    menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries"> وەرگرتنەکان</a>`;
+    menu += `<a onclick="go('myDeliveries')" id="nav-myDeliveries">📦 وەرگرتنەکان</a>`;
     menu += `<a onclick="go('myAccount')" id="nav-myAccount">💳 حسابی من</a>`;
     menu += `<a onclick="go('myShopAccounts')" id="nav-myShopAccounts">💰 حسابی دوکانەکانم</a>`;
-    menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay"> تۆمارکردنی پارە</a>`;
+    menu += `<a onclick="go('recordShopPay')" id="nav-recordShopPay">💵 تۆمارکردنی پارە</a>`;
   }
   menu += `<a class="logout" onclick="logout()">🚪 چوونەدەرەوە</a>`;
   sb.innerHTML = menu;
@@ -438,7 +429,7 @@ function go(page) {
     dashboard:'داشبۆرد', admins:'بەڕێوەبردنی Admin', mandubs:'مندوبەکان',
     shops:'دوکانەکان', products:'کەلوپەلەکان', orders:'داواکارییەکان',
     deliveries:'تسلیمکردن', mandubAccounts:'حسابی مندوبەکان', shopAccounts:'حسابی دوکانەکان',
-    reports:'ڕاپۆرت', history:'مێژوو', myShops:'دوکانەکانم', newOrder:'داواکاری نوێ',
+    profits:'قازانج', reports:'ڕاپۆرت', history:'مێژوو', myShops:'دوکانەکانم', newOrder:'داواکاری نوێ',
     myOrders:'داواکارییەکانم', myDeliveries:'وەرگرتنەکان', myShopAccounts:'حسابی دوکانەکانم',
     recordShopPay:'تۆمارکردنی پارە', myAccount:'حسابی من'
   };
@@ -459,6 +450,7 @@ function render() {
     deliveries: () => renderDeliveries(),
     mandubAccounts: () => renderMandubAccounts(),
     shopAccounts: () => renderShopAccounts(),
+    profits: () => renderProfits(),
     reports: () => renderReports(),
     history: () => renderHistory(),
     myShops: () => renderMyShops(),
@@ -517,6 +509,103 @@ function renderDashboard() {
 }
 function statCard(label, value, color) {
   return `<div class="stat-card ${color}"><div class="label">${label}</div><div class="value">${value}</div></div>`;
+}
+
+// ===== NEW: PROFIT SECTION =====
+function renderProfits() {
+  const products = DB.products;
+  
+  let totalProfitPerUnit = 0;
+  let totalPotentialProfit = 0;
+  let totalStockValue = 0;
+  let totalBuyValue = 0;
+  let totalSellValue = 0;
+  
+  products.forEach(p => {
+    const profitPerUnit = p.sellPrice - p.buyPrice;
+    const potentialProfit = profitPerUnit * p.stock;
+    totalProfitPerUnit += profitPerUnit;
+    totalPotentialProfit += potentialProfit;
+    totalBuyValue += p.buyPrice * p.stock;
+    totalSellValue += p.sellPrice * p.stock;
+    totalStockValue += p.stock;
+  });
+  
+  const deliveredOrders = DB.orders.filter(o => o.status === 'delivered');
+  let actualProfit = 0;
+  deliveredOrders.forEach(o => {
+    o.items.forEach(i => {
+      const p = getProduct(i.productId);
+      if (p) {
+        const profitPerUnit = p.sellPrice - p.buyPrice;
+        actualProfit += profitPerUnit * i.qty;
+      }
+    });
+  });
+  
+  let html = `<div class="panel">
+    <div class="panel-head"><h2>💰 بەشی قازانج</h2></div>
+    
+    <div class="stats">
+      ${statCard('قازانجی ڕاستەقینە (فرۆشراو)', fmt(actualProfit), 'green')}
+      ${statCard('قازانجی چاوەڕوان (لە کۆگا)', fmt(totalPotentialProfit), 'orange')}
+      ${statCard('کۆی بەهای کۆگا (فرۆشتن)', fmt(totalSellValue), '')}
+      ${statCard('کۆی بەهای کۆگا (کڕین)', fmt(totalBuyValue), 'red')}
+    </div>
+    
+    <div class="panel-head" style="margin-top:20px"><h2>📦 وردەکاری قازانجی هەر کاڵایەک</h2></div>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>وێنە</th>
+          <th>ناوی کاڵا</th>
+          <th>نرخی کڕین</th>
+          <th>نرخی فرۆشتن</th>
+          <th>قازانج/دانە</th>
+          <th>ژمارە لە کۆگا</th>
+          <th>قازانجی گشتی</th>
+        </tr>`;
+  
+  products.forEach(p => {
+    const profitPerUnit = p.sellPrice - p.buyPrice;
+    const totalProfit = profitPerUnit * p.stock;
+    const img = p.image ? `<img src="${p.image}" style="width:40px;height:40px;border-radius:4px;object-fit:cover">` : '-';
+    const profitColor = profitPerUnit > 0 ? '#10b981' : (profitPerUnit < 0 ? '#ef4444' : '#64748b');
+    
+    html += `<tr>
+      <td>${img}</td>
+      <td><b>${p.name}</b></td>
+      <td>${fmt(p.buyPrice)}</td>
+      <td>${fmt(p.sellPrice)}</td>
+      <td style="color:${profitColor};font-weight:bold">${fmt(profitPerUnit)}</td>
+      <td>${p.stock} دانە</td>
+      <td style="color:${profitColor};font-weight:bold">${fmt(totalProfit)}</td>
+    </tr>`;
+  });
+  
+  html += `</table>
+    </div>
+    
+    <div style="margin-top:20px;padding:15px;background:#f0fdf4;border:2px solid #10b981;border-radius:10px">
+      <h4 style="color:#065f46;margin-bottom:10px">📊 پوختەی قازانج</h4>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px">
+        <div>
+          <div style="color:#64748b;font-size:13px">قازانجی ڕاستەقینە (لە داواکارییە تسلیمکراوەکان):</div>
+          <div style="font-size:22px;font-weight:bold;color:#10b981">${fmt(actualProfit)}</div>
+        </div>
+        <div>
+          <div style="color:#64748b;font-size:13px">قازانجی چاوەڕوان (ئەگەر هەموو کۆگا بفرۆشرێت):</div>
+          <div style="font-size:22px;font-weight:bold;color:#f59e0b">${fmt(totalPotentialProfit)}</div>
+        </div>
+        <div>
+          <div style="color:#64748b;font-size:13px">کۆی گشتی قازانج (ڕاستەقینە + چاوەڕوان):</div>
+          <div style="font-size:22px;font-weight:bold;color:#667eea">${fmt(actualProfit + totalPotentialProfit)}</div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  
+  return html;
 }
 
 function renderAdmins() {
@@ -893,7 +982,6 @@ function viewOrder(id) {
     </div>`);
 }
 
-// ===== NEW: DELIVER ORDER WITH PRINT INVOICE =====
 function deliverOrderWithModal(orderId) {
   const order = DB.orders.find(x => x.id === orderId);
   if (!order) return;
@@ -1018,7 +1106,7 @@ function printInvoice(orderId) {
       <h3>📋 زانیاری گشتی</h3>
       <div class="print-info-grid">
         <div class="print-info-box">
-          <h4> زانیاری دوکان</h4>
+          <h4>🏪 زانیاری دوکان</h4>
           <p><strong>ناو:</strong> ${shop.name}</p>
           <p><strong>خاوەن:</strong> ${shop.owner || '-'}</p>
           <p><strong>مۆبایل:</strong> ${shop.phone || '-'}</p>
@@ -1026,7 +1114,7 @@ function printInvoice(orderId) {
           <p><strong>شار:</strong> ${shop.city || '-'}</p>
         </div>
         <div class="print-info-box">
-          <h4>👤 زانیاری مندوب</h4>
+          <h4> زانیاری مندوب</h4>
           <p><strong>ناو:</strong> ${mandub ? mandub.name : '-'}</p>
           <p><strong>مۆبایل:</strong> ${mandub ? mandub.phone || '-' : '-'}</p>
           <p><strong>ناونیشان:</strong> ${mandub ? mandub.address || '-' : '-'}</p>
@@ -1076,7 +1164,7 @@ function printInvoice(orderId) {
     </div>
     
     <div class="print-section">
-      <h3>️ ئیمزا و دڵنیابوونەوە</h3>
+      <h3>✍️ ئیمزا و دڵنیابوونەوە</h3>
       <div class="print-signatures">
         <div class="sig-box">
           <div class="sig-label">ئیمزای ئەدمین (دابەشکەر)</div>
@@ -1101,7 +1189,6 @@ function printInvoice(orderId) {
   
   document.getElementById('printInvoiceContainer').innerHTML = invoiceHtml;
   
-  // Trigger print
   setTimeout(() => {
     window.print();
   }, 300);
@@ -1111,7 +1198,6 @@ function confirmDelivery(orderId) {
   const order = DB.orders.find(x => x.id === orderId);
   if (!order) return;
   
-  // Check stock
   let canDeliver = true;
   let errorMsg = '';
   order.items.forEach(i => {
@@ -1127,16 +1213,13 @@ function confirmDelivery(orderId) {
     return;
   }
   
-  // Reduce stock
   order.items.forEach(i => {
     const p = getProduct(i.productId);
     if (p) p.stock -= i.qty;
   });
   
-  // Update order status
   order.status = 'delivered';
   
-  // Create delivery record
   DB.deliveries.push({
     id: nextId(DB.deliveries),
     orderId: order.id,
@@ -1221,7 +1304,7 @@ function renderMandubAccounts() {
       <td>${fmt(s.received)}</td>
       <td>${fmt(s.paidToAdmin)}</td>
       <td style="color:${s.debtToAdmin>0?'red':'green'}"><b>${fmt(s.debtToAdmin)}</b></td>
-      <td><button class="btn btn-sm btn-primary" onclick="showMandubShopDetails(${m.id})"> بینینی دوکانەکان</button></td>
+      <td><button class="btn btn-sm btn-primary" onclick="showMandubShopDetails(${m.id})">📂 بینینی دوکانەکان</button></td>
     </tr>`;
   });
   html += '</table></div></div>';
@@ -1276,7 +1359,7 @@ function showMandubShopDetails(mandubId) {
     </div>
   </div>`;
   html += `<div class="shop-detail-section">
-    <h4> کۆی هەموو کاڵاکان (لە هەموو دوکانەکان)</h4>`;
+    <h4>📦 کۆی هەموو کاڵاکان (لە هەموو دوکانەکان)</h4>`;
   const prodKeys = Object.keys(productSummary);
   if (prodKeys.length === 0) html += '<p style="color:#64748b">هیچ کاڵایەک نەنێردراوە</p>';
   else {
@@ -1291,7 +1374,7 @@ function showMandubShopDetails(mandubId) {
   }
   html += '</div>';
   html += `<div class="shop-detail-section">
-    <h4>🏪 وردەکاری هەر دوکانێک (بە بەروار و ژمارە)</h4>`;
+    <h4> وردەکاری هەر دوکانێک (بە بەروار و ژمارە)</h4>`;
   if (shops.length === 0) html += '<p style="color:#64748b">هیچ دوکانێکی نییە</p>';
   else {
     shops.forEach(s => {
@@ -1394,7 +1477,7 @@ function shopDetail(id) {
       ${statCard('پارەی دراو', fmt(st.paid), 'green')}
       ${statCard('قەرز', fmt(st.debt), 'red')}
     </div>
-    <h4 style="margin:15px 0 10px">📦 کاڵاکانی نێردراو</h4>
+    <h4 style="margin:15px 0 10px"> کاڵاکانی نێردراو</h4>
     ${delHtml || '<p>هیچ کاڵایەک نەنێردراوە</p>'}
     <h4 style="margin:15px 0 10px">💰 مێژووی پارەدان</h4>
     ${pays.length ? payHtml : '<p>هیچ پارەدانێک نییە</p>'}
@@ -1426,7 +1509,7 @@ function renderReports() {
   });
   
   let html = `<div class="panel">
-    <div class="panel-head"><h2>📊 ڕاپۆرتی گشتی</h2></div>
+    <div class="panel-head"><h2> ڕاپۆرتی گشتی</h2></div>
     
     <div class="report-filters">
       <h4>فلتەرەکانی ڕاپۆرت</h4>
@@ -1466,9 +1549,6 @@ function renderReports() {
   const totalOrders = filteredOrders.length;
   const totalDeliveries = filteredDeliveries.length;
   const pendingOrders = filteredOrders.filter(o=>o.status==='pending').length;
-  const approvedOrders = filteredOrders.filter(o=>o.status==='approved').length;
-  const deliveredOrders = filteredOrders.filter(o=>o.status==='delivered').length;
-  const rejectedOrders = filteredOrders.filter(o=>o.status==='rejected').length;
   
   const monthlySales = calculateMonthlySales(filteredDeliveries);
   
@@ -1481,7 +1561,7 @@ function renderReports() {
   
   html += `<div class="tab-container">
     <div class="tab-buttons">
-      <button class="tab-btn active" onclick="switchReportTab('tabOverview')">📊 تێڕوانین گشتی</button>
+      <button class="tab-btn active" onclick="switchReportTab('tabOverview')"> تێڕوانین گشتی</button>
       <button class="tab-btn" onclick="switchReportTab('tabOrders')">📝 داواکارییەکان</button>
       <button class="tab-btn" onclick="switchReportTab('tabProducts')">📦 کاڵاکان</button>
       <button class="tab-btn" onclick="switchReportTab('tabMandubs')">👥 مندوبەکان</button>
@@ -2054,7 +2134,7 @@ function renderMyAccount() {
     html += '</table></div>';
   }
   html += `</div><div id="tabDelivered" class="tab-content">
-        <h4 style="margin-bottom:10px">📦 داواکارییە تسلیمکراوەکان</h4>`;
+        <h4 style="margin-bottom:10px"> داواکارییە تسلیمکراوەکان</h4>`;
   if (deliveredOrders.length === 0) html += '<p style="color:#64748b">هیچ داواکارییەکی تسلیمکراو نییە</p>';
   else {
     html += '<div class="table-wrap"><table><tr><th>#</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>وەرگرتن</th><th>کردار</th></tr>';
@@ -2068,7 +2148,7 @@ function renderMyAccount() {
     html += '</table></div>';
   }
   html += `</div><div id="tabRejected" class="tab-content">
-        <h4 style="margin-bottom:10px">❌ داواکارییە ڕەتکراوەکان</h4>`;
+        <h4 style="margin-bottom:10px"> داواکارییە ڕەتکراوەکان</h4>`;
   if (rejectedOrders.length === 0) html += '<p style="color:#64748b">هیچ داواکارییەکی ڕەتکراو نییە</p>';
   else {
     html += '<div class="table-wrap"><table><tr><th>#</th><th>دوکان</th><th>بەروار</th><th>کۆ</th><th>هۆکار</th></tr>';
@@ -2080,7 +2160,7 @@ function renderMyAccount() {
     html += '</table></div>';
   }
   html += `</div><div id="tabProducts" class="tab-content">
-        <h4 style="margin-bottom:10px">📦 کۆی هەموو کاڵاکان (لە هەموو دوکانەکانم)</h4>`;
+        <h4 style="margin-bottom:10px"> کۆی هەموو کاڵاکان (لە هەموو دوکانەکانم)</h4>`;
   const prodKeys = Object.keys(productSummary);
   if (prodKeys.length === 0) html += '<p style="color:#64748b">هیچ کاڵایەک وەرنەگیراوە</p>';
   else {
